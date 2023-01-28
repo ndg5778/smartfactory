@@ -1,6 +1,7 @@
 # PCA9685 사용하기
 >출처 : https://github.com/prestonsn/PCA9685-Multi-Channel-Servo-Controller-Driver-for-AVR-ATmega
 
+ATmgea328p로 서보모터 드라이버(pca9685)를 이용하여 서보모터 움직이기
 ---
 
 ``` C
