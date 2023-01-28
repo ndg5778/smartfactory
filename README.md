@@ -15,7 +15,7 @@ int main(void)
 	_delay_ms(5);
 	int8_t angle = 0;
 	pca9685_servo(0, 0);
-	pca9685_servo(1, 0);
+	// pca9685_servo(1, 0);
 	_delay_ms(1000);
 
 	while (1) {
@@ -26,8 +26,8 @@ int main(void)
 			_delay_ms(25);
 		}
 		for (angle = 90; angle >= -90; angle -= 5) {
-			//pca9685_servo(0, angle);
-			pca9685_servo(1, angle);
+			pca9685_servo(0, angle);
+			// pca9685_servo(1, angle);
 			_delay_ms(25);
 		}
 	}
