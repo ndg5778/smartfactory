@@ -11,8 +11,8 @@ ENA, ENB는 ATmega328p에 연결하지 않고 +에 연결하였음. (핀을 줄�
 
 아래는 main.c의 코드와 동일함.
 
-아래의 코드를 사용하면 다음 영상과 같이 된다. (링크공개 영상)
-https://youtu.be/AbVaCdjIxz4
+[아래의 코드를 사용하면 영상과 같이 된다. (링크공개 영상. 지금 문장 클릭)](https://youtu.be/AbVaCdjIxz4)
+
 
 ``` C
 #define F_CPU 16000000L
