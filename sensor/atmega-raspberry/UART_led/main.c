@@ -40,7 +40,7 @@ int main(int argc, char *argv[])
 			UART_transmit(data);
 			index = 0;
 		}
-		PORTB &= ~0x01;
+		PORTB &= ~0x01;	
 	}
 
 	return 0;

@@ -1,6 +1,6 @@
 import serial
 
-ser = serial.Serial(port = '/dev/ttyAMA0',
+ser = serial.Serial(port = '/dev/ttyS0',
                     baudrate = 9600,
                     timeout = 1)
 num = -1
@@ -10,11 +10,14 @@ while (num != 0):
     num = int(input("1:ON 2:OFF 0:EXIT : "))
 
     if (num == 1):
-        print("ON!")
-        ser.write('h'.encode('utf-8'))
+        ser.write(b'h')
+        print("h")
     elif (num == 2):
-        print("OFF!")
-        ser.write('l'.encode('utf-8'))
+        ser.write(b'l')
+        print("l")
+    elif (num == 3):
+        ser.write(b'f')
+        print("f")
     elif (num == 0):
         print("OUT!")
         ser.close()
