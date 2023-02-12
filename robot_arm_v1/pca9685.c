@@ -113,7 +113,9 @@ void pca9685_servo(uint8_t servoNum, float angle)
 }
 
 void pca9685_pwm(uint8_t servoNum, uint16_t usec){
-	//if (angle > 90) { angle = 90; } else if (angle < -90) { angle = -90; } // 주석처리
+	
+	if (usec > 2400)	usec = 2400;
+	else if (usec < 600) usec = 600;
 	
 	uint16_t pulse_us = usec; //1500 + angle*10;
 
