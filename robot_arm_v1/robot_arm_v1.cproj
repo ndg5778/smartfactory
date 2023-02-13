@@ -143,6 +143,9 @@
     <Compile Include="i2c.h">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="L298N.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="led_test.c">
       <SubType>compile</SubType>
     </Compile>

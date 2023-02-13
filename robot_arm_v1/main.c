@@ -7,6 +7,24 @@
 #include "pca9685.h" // include the PCA9685 library
 #include "UART.h"
 
+// 스테핑모터
+#define STEPPING_A_DDR DDRD
+#define STEPPING_A PORTD
+#define STEPPING_B_DDR DDRC
+#define STEPPING_B PORTC
+
+#define STEPPING_A_IN1 PD2
+#define STEPPING_A_IN2 PD3
+#define STEPPING_A_IN3 PD4
+#define STEPPING_A_IN4 PD5
+
+#define STEPPING_B_IN1 PC0
+#define STEPPING_B_IN2 PC1
+#define STEPPING_B_IN3 PC2
+#define STEPPING_B_IN4 PC3
+
+#define motor_time 20000
+
 // LED (상태등)
 #define LED_DDR DDRB
 #define LED_PORT PORTB
@@ -23,7 +41,74 @@
 // pulse
 #define ANGLE(x) ((10 * x) + 600)		// 600 ~ 2400
 
+#define servo_max 9
 
+
+// 서보모터 초기화
+void INIT_SERVO();
+// 서보모터 움직이기
+void move_servo(int, int, int);
+// 로봇암 쉽게 움직이기
+void move_robotarm(int, int);
+// 스테핑모터 돌리기
+void loop_stepper();
+
+
+int move_Aarm_coord[9][servo_max][3] = {
+	{{1, 90, 0}, {2, 90, 0}, {4, 90, 0}, {5, 90, 30}, {2, 30, 90}, {1, 0, 90}, {1, 90, 180}, {2, 90, 00}, {5, 0, 90}}
+};
+
+
+int main(void)
+{
+	LED_DDR |= (1 << LED1) | (1 << LED2);
+	DDRB &= ~(1 << switch1);
+	
+	// servo motor 초기화
+	INIT_SERVO();
+	_delay_ms(1000);
+	
+	//move_servo(SERVO_A(4), ANGLE(90), ANGLE(0));
+	
+	while (1){
+		// LED ON
+		PORTB |= (1 << LED1);
+		
+		if (!(PINB & (1 << switch1))) {
+			_delay_ms(500);
+			PORTB |= (1 << LED2);
+			
+			// 1번째 배열에 맞춰 로봇팔 움직이기
+			move_robotarm(1, 0);
+			/* move_servo(SERVO_A(1), ANGLE(90), ANGLE(0));
+			move_servo(SERVO_A(2), ANGLE(90), ANGLE(0));
+			move_servo(SERVO_A(4), ANGLE(90), ANGLE(0));
+			move_servo(SERVO_A(5), ANGLE(90), ANGLE(30));
+			//move_servo(SERVO_A(4), ANGLE(0), ANGLE(90));
+			move_servo(SERVO_A(2), ANGLE(30), ANGLE(90));
+			//pca9685_pwm(SERVO_A(2), ANGLE(90));
+			move_servo(SERVO_A(1), ANGLE(0), ANGLE(90));
+			//INIT_SERVO();
+			
+			move_servo(SERVO_A(1), ANGLE(90), ANGLE(180));
+			move_servo(SERVO_A(2), ANGLE(90), ANGLE(00));
+			move_servo(SERVO_A(5), ANGLE(0), ANGLE(90)); */
+			
+			
+			_delay_ms(2000);
+			INIT_SERVO();
+		}
+		else {
+			PORTB &= ~(1 << LED2);
+		}
+		
+		// LED OFF
+		PORTB &= ~(1 << LED1);
+	}
+	INIT_SERVO();
+
+	return 0;
+}
 
 void INIT_SERVO(){
 	
@@ -69,50 +154,49 @@ void move_servo(int servo, int start_angle, int end_angle){
 	}
 }
 
-int main(void)
-{
-	LED_DDR |= (1 << LED1) | (1 << LED2);
-	DDRB &= ~(1 << switch1);
+void move_robotarm(int servo, int count){
 	
-	// servo motor 초기화
-	INIT_SERVO();
-	_delay_ms(1000);
+	int i;
 	
-	//move_servo(SERVO_A(4), ANGLE(90), ANGLE(0));
-	
-	while (1){
-		// LED ON
-		PORTB |= (1 << LED1);
-		
-		
-		
-		if (!(PINB & (1 << switch1))) {
-			_delay_ms(500);
-			PORTB |= (1 << LED2);
-			move_servo(SERVO_A(1), ANGLE(90), ANGLE(0));
-			move_servo(SERVO_A(2), ANGLE(90), ANGLE(0));
-			move_servo(SERVO_A(4), ANGLE(90), ANGLE(0));
-			move_servo(SERVO_A(5), ANGLE(90), ANGLE(30));
-			//move_servo(SERVO_A(4), ANGLE(0), ANGLE(90));
-			move_servo(SERVO_A(2), ANGLE(30), ANGLE(90));
-			//pca9685_pwm(SERVO_A(2), ANGLE(90));
-			move_servo(SERVO_A(1), ANGLE(0), ANGLE(90));
-			//INIT_SERVO();
-			
-			move_servo(SERVO_A(1), ANGLE(90), ANGLE(180));
-			move_servo(SERVO_A(2), ANGLE(90), ANGLE(00));
-			move_servo(SERVO_A(5), ANGLE(0), ANGLE(90));
-			_delay_ms(2000);
-			INIT_SERVO();
+	switch (servo){
+		case 1:
+		PORTB |= (1 << LED2);
+		for(i = 0; i < servo_max; i++){
+			move_servo(SERVO_A(move_Aarm_coord[count][i][0]), ANGLE(move_Aarm_coord[count][i][1]), ANGLE(move_Aarm_coord[count][i][2]));
 		}
-		else {
-			PORTB &= ~(1 << LED2);
-		}
-		
-		// LED OFF
-		PORTB &= ~(1 << LED1);
+		break;
+		//case 2:
+		//for(i = 0; i < servo_max; i++){
+		//move_servo(SERVO_B(move_Barm_coord[count][i][0]), ANGLE(move_Barm_coord[count][i][1]), ANGLE(move_Barm_coord[count][i][2]));
+		//break;
+		//}
 	}
-	INIT_SERVO();
+	
+}
 
-	return 0;
+void loop_stepper()
+{
+	STEPPING_A &= ~((1 << STEPPING_A_IN1) | (1 << STEPPING_A_IN4));		// low
+	STEPPING_A |= (1 << STEPPING_A_IN2) | (1 << STEPPING_A_IN3);		// high
+	STEPPING_B &= ~((1 << STEPPING_B_IN1) | (1 << STEPPING_B_IN4));
+	STEPPING_B |= (1 << STEPPING_B_IN2) | (1 << STEPPING_B_IN3);
+	_delay_us(motor_time);
+
+	STEPPING_A &= ~((1 << STEPPING_A_IN1) | (1 << STEPPING_A_IN3));
+	STEPPING_A |= (1 << STEPPING_A_IN2) | (1 << STEPPING_A_IN4);
+	STEPPING_B &= ~((1 << STEPPING_B_IN1) | (1 << STEPPING_B_IN3));
+	STEPPING_B |= (1 << STEPPING_B_IN2) | (1 << STEPPING_B_IN4);
+	_delay_us(motor_time);
+	
+	STEPPING_A &= ~((1 << STEPPING_A_IN2) | (1 << STEPPING_A_IN3));
+	STEPPING_A |= (1 << STEPPING_A_IN1) | (1 << STEPPING_A_IN4);
+	STEPPING_B &= ~((1 << STEPPING_B_IN2) | (1 << STEPPING_B_IN3));
+	STEPPING_B |= (1 << STEPPING_B_IN1) | (1 << STEPPING_B_IN4);
+	_delay_us(motor_time);
+
+	STEPPING_A &= ~((1 << STEPPING_A_IN2) | (1 << STEPPING_A_IN4));
+	STEPPING_A |= (1 << STEPPING_A_IN1) | (1 << STEPPING_A_IN3);
+	STEPPING_B &= ~((1 << STEPPING_B_IN2) | (1 << STEPPING_B_IN4));
+	STEPPING_B |= (1 << STEPPING_B_IN1) | (1 << STEPPING_B_IN3);
+	_delay_us(motor_time);
 }
