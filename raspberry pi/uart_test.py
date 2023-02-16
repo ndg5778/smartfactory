@@ -1,0 +1,10 @@
+import serial
+
+# Set up the serial port
+ser = serial.Serial('/dev/ttyS0', 9600, timeout=1)
+
+# Wait for the microcontroller to send data
+while True:
+    data = ser.readline().decode().strip()
+    if data:
+        print(f"Received data: {data}")
