@@ -44,7 +44,7 @@
 #define servo_max 9
 #define TERMINATOR '$'
 
-
+/* 함수 */
 // uart
 void uart_RasToAt();
 // 서보모터 초기화
@@ -58,6 +58,10 @@ void INIT_STEPPER();
 // 스테핑모터 돌리기
 void loop_stepper();
 
+
+/* 어쩌고들 */
+// ㅅ지가할 수 있나?
+char uart_canmove();
 
 
 int move_Aarm_coord[9][servo_max][3] = {
@@ -77,7 +81,8 @@ int main(void)
 	LED_DDR |= (1 << LED1) | (1 << LED2);
 	DDRB &= ~(1 << switch1);
 	
-	int pass = 0;
+	int temp;
+	int move_num;
 	
 	// servo motor, stepping motor 초기화
 	INIT_SERVO();
@@ -91,64 +96,80 @@ int main(void)
 		// LED ON
 		PORTB |= (1 << LED1);
 		
-		UART_printString("====Fisrt Robot Arm====");
-		UART_printString("\n");
+		// uart로 로봇팔 어디에 움직여야할지 확인
+		//temp = uart_canmove();
+		int pass = 0;
 		
-		//do {
-			//uart_RasToAt();
-			//
-			//if(process_data == 1){
-				//strcpy(buffer_data, buffer);
-				//if (strcmp(buffer_data, "1") == 0){
-					//
-				//}
-		//} while (pass == 0);
-		//
-		//if(process_data == 1){		// 문자열 처리
-			//strcpy(buffer_data, buffer);
-			//if((strcmp(buffer_data, "mov") != 0) && (strcmp(buffer_data, "stp") != 0)){
-				//UART_printString("** Unknown Command **\t: ");
-				//UART_printString(buffer);
-				//UART_printString("\n");
-			//}
-			//else if (strcmp(buffer_data, "mov") == 0) {
-				//UART_printString("MOVE!");
-				//UART_printString("\n");
-				//
-				//while(!(strcmp(buffer_data, "stp") == 0)){
-					//UART_printString("STOP!!");
-					//UART_printString("\n");
-					//uart_RasToAt();
-					//loop_stepper();
-				//}
-			//}
-			//index = 0;
-			//process_data = 0;
-		//}
-		//
-		//uart_RasToAt();
-		
-		if (!(PINB & (1 << switch1))) {
-			_delay_ms(500);
-			PORTB |= (1 << LED2);
+		while (pass == 0){
+			// 로봇팔 움직일 수 있는지 확인
+			UART_printString("====First Robot Arm====");
+			UART_printString("\n");
 			
-			move_robotarm(1, 1);		// 1번째 로봇팔을 1번째 배열에 맞춰 로봇팔 움직이기
-			_delay_ms(1000);
-			INIT_SERVO();
+			UART_printString("");
+			uart_RasToAt();
 			
-			// 신호를 받을 때까지 스테핑모터 움직이기
-			while (PINB & (1 << switch1)) {
-				loop_stepper();
+			if(process_data == 1){
+				strcpy(buffer_data, buffer);
+				
+				// 0 ~ 8의 값이 들어오면
+				if ((strcmp(buffer, "0") == 0) || (strcmp(buffer_data, "1") == 0) || (strcmp(buffer_data, "2") == 0) || (strcmp(buffer_data, "3") == 0) || (strcmp(buffer_data, "4") == 0) || (strcmp(buffer_data, "5") == 0) || (strcmp(buffer_data, "6") == 0) || (strcmp(buffer_data, "7") == 0) || (strcmp(buffer_data, "8") == 0)){
+					UART_printString("pass");
+					UART_printString("\n");
+					//UART_transmit(buffer_data);
+					pass = 1;
+				}
+				// 9의 값일 들어오면 (배열이 꽉 찼음)
+				else if (strcmp(buffer, "9") == 0) {
+					UART_printString("end");
+					UART_printString(buffer);
+					UART_printString("\n");
+					PORTB &= ~(1 << LED1);
+					return 0;
+				}
+				// 다른 값이 들어온다면...
+				else {
+					UART_printString("It's not a str from 0 to 9. : ");
+					UART_printString(buffer);
+					UART_printString("\n");
+				}
+				UART_printString("test : ");
+				UART_printString(buffer);
+				UART_printString("\n");
 			}
 		}
-		else {
-			PORTB &= ~(1 << LED2);
-		}
+		
+		//// return으로 stop을 받으면 실행을 종료한다.
+		//if (temp == "stop") {
+			//PORTB &= ~(1 << LED2);
+			//return 0;
+		//}
+		
+		
+		// stop을 return받지 않으면 로봇팔 움직임
+		move_num = (int)buffer_data;
+		move_robotarm(move_num + 1, 1);
+		
+		//if (!(PINB & (1 << switch1))) {
+			//_delay_ms(500);
+			//PORTB |= (1 << LED2);
+			//
+			//move_robotarm(1, 1);		// 1번째 로봇팔을 1번째 배열에 맞춰 로봇팔 움직이기
+			//_delay_ms(1000);
+			//INIT_SERVO();
+			//
+			//// 신호를 받을 때까지 스테핑모터 움직이기
+			//while (PINB & (1 << switch1)) {
+				//loop_stepper();
+			//}
+		//}
+		//else {
+			//PORTB &= ~(1 << LED2);
+		//}
 		
 		// LED OFF
 		PORTB &= ~(1 << LED1);
 	}
-	INIT_SERVO();
+	
 
 	return 0;
 }
@@ -159,8 +180,9 @@ void uart_RasToAt(){
 		if(data == TERMINATOR) {	// 종료 문자를 수신한 경우
 			buffer[index] = '\0';
 			process_data = 1;		// 수신 문자열 처리 지시
+			index = 0;
 		}
-		else{
+		else {
 			buffer[index] = data;	// 수신 버퍼에 저장
 			index++;
 		}
@@ -177,10 +199,10 @@ void INIT_SERVO(){
 	}
 }
 
-void move_servo(int servo, int start_angle, int end_angle){
+void move_servo(int servo, int start_angle, int end_angle) {
 	int angle;
 
-	if (start_angle <= end_angle){
+	if (start_angle <= end_angle) {
 		for (angle = start_angle; angle <= end_angle; ) {
 			if (PINB & (1 << switch1)) {
 				PORTB &= ~0x02;
@@ -209,6 +231,45 @@ void move_servo(int servo, int start_angle, int end_angle){
 			_delay_ms(15);
 		}
 	}
+}
+
+char uart_canmove() {
+	
+	int pass = 0;
+	
+	while (pass == 0){
+		// 로봇팔 움직일 수 있는지 확인
+		UART_printString("====Fisrt Robot Arm====");
+		UART_printString("\n");
+		
+		uart_RasToAt();
+		
+		if(process_data == 1){
+			strcpy(buffer_data, buffer);
+			
+			// 0 ~ 8의 값이 들어오면
+			if ((strcmp(buffer_data, "0") == 0) || (strcmp(buffer_data, "1") == 0) || (strcmp(buffer_data, "2") == 0) || (strcmp(buffer_data, "3") == 0) || (strcmp(buffer_data, "4") == 0) || (strcmp(buffer_data, "5") == 0) || (strcmp(buffer_data, "6") == 0) || (strcmp(buffer_data, "7") == 0) || (strcmp(buffer_data, "8") == 0)){
+				UART_printString("pass");
+				//UART_transmit(buffer_data);
+				UART_printString("\n");
+				pass = 1;
+				return buffer_data;
+			}
+			// 9의 값일 들어오면 (배열이 꽉 찼음)
+			else if (strcmp(buffer_data, "9") == 0) {
+				UART_printString("end");
+				PORTB &= ~(1 << LED1);
+				return "stop";
+			}
+			// 다른 값이 들어온다면...
+			else {
+				UART_printString("It's not a str from 0 to 9.");
+			}
+		}
+	}
+	
+	
+	return buffer_data;
 }
 
 void move_robotarm(int servo, int count){

@@ -36,6 +36,11 @@
 	//while (1) {
 		////INIT_SERVO();
 		//int angle;
+		//for (angle = 1800; angle <= 600; angle -= 20) {
+			//PORTB |= 0x02;
+			//pca9685_pwm(3, angle);
+			//_delay_ms(20);
+		//}
 		//for (angle = 600; angle <= 1800; angle += 20) {
 			//PORTB |= 0x02;
 			////pca9685_pwm(0, angle);

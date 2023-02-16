@@ -51,7 +51,8 @@
 	//
 	//LED_DDR |= (1 << LED1) | (1 << LED2);
 	//
-	//UART_printString("====stepping motor====");
+	////UART_printString("====stepping motor====");
+	//UART_printString("====Fisrt Robot Arm====");
 		//
 	//while(1)
 	//{
@@ -66,10 +67,15 @@
 				//UART_printString("\n");
 			//}
 			//
-			//if (strcmp(buffer_data, "2") == 0) {
+			//else if (strcmp(buffer_data, "2") == 0) {
 				////UART_printString("OK!");
 				//(int)buffer_data;
 				//UART_printString(buffer_data);
+			//}
+			//else {
+				//UART_printString("else : ");
+				//UART_printString(buffer_data);
+				//UART_printString("\n");
 			//}
 			//
 			////if((strcmp(buffer_data, "mov") != 0) && (strcmp(buffer_data, "stp") != 0)){
