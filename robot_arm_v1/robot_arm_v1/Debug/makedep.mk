@@ -20,5 +20,7 @@ UART.c
 
 uart_main.c
 
+uart_test_v1.c
+
 uart_test_v2.c
 
