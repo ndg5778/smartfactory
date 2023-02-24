@@ -62,6 +62,8 @@ void loop_stepper();
 /* 어쩌고들 */
 // 시작할 수 있나?
 char WhichCanMove();
+// 적외선센서 값 받기
+int ReceiveInfrared();
 
 
 int move_Aarm_coord[9][servo_max][3] = {
@@ -96,22 +98,33 @@ int main(void)
 		// LED ON
 		PORTB |= (1 << LED1);
 		
-		// uart로 로봇팔 어디에 움직여야할지 확인
-		//temp = WhichCanMove();
 		int pass = 0;
 		
-		while (pass == 0){
+		while (pass == 0) {
+			
+			/* PART1. 첫 번째 로봇팔 움직임 */
+			
 			// 로봇팔 움직일 수 있는지 확인
 			UART_printString("====First Robot Arm====\n");
-			//UART_printString("\n");
-			//temp = WhichCanMove();
 			temp = WhichCanMove();
 		
 			// return으로 stop을 받으면 실행을 종료한다.
-			if (temp == "stop") {
-				PORTB &= ~(1 << LED2);
+			if (strcmp(temp, "stop") == 0) {
+				PORTB |= (1 << LED2);
 				return 0;
 			}
+			
+			// pass를 받으면 실행
+			move_num = (int)temp;
+			move_robotarm(move_num + 1, 1);
+			
+			// 적외선센서
+			UART_printString("====First Infrared====\n");
+			ReceiveInfrared();
+			
+			/* PART2. 스테핑모터 움직이기 */
+			
+			
 		}
 		
 		//// stop을 return받지 않으면 로봇팔 움직임
@@ -126,7 +139,7 @@ int main(void)
 	return 0;
 }
 
-void uart_RasToAt(){
+void uart_RasToAt() {
 	data = UART_receive();	// 데이터 수신
 	if (data != ""){
 		if(data == TERMINATOR) {	// 종료 문자를 수신한 경우
@@ -188,6 +201,7 @@ void move_servo(int servo, int start_angle, int end_angle) {
 char WhichCanMove() {
 	
 	int pass = 0;
+	char temp;
 	
 	while (pass == 0){
 		//// 로봇팔 움직일 수 있는지 확인
@@ -201,9 +215,9 @@ char WhichCanMove() {
 			
 			// 0 ~ 8의 값이 들어오면
 			if ((strcmp(buffer_data, "0") == 0) || (strcmp(buffer_data, "1") == 0) || (strcmp(buffer_data, "2") == 0) || (strcmp(buffer_data, "3") == 0) || (strcmp(buffer_data, "4") == 0) || (strcmp(buffer_data, "5") == 0) || (strcmp(buffer_data, "6") == 0) || (strcmp(buffer_data, "7") == 0) || (strcmp(buffer_data, "8") == 0)){
-				UART_printString("pass\n");
-				//UART_transmit(buffer_data);
-				//UART_printString("\n");
+				UART_printString("pass");
+				UART_printString(buffer_data);
+				UART_printString("\n");
 				pass = 1;
 				return buffer_data;
 			}
@@ -211,18 +225,25 @@ char WhichCanMove() {
 			else if (strcmp(buffer_data, "9") == 0) {
 				UART_printString("end");
 				PORTB &= ~(1 << LED1);
-				return "stop";
+				strcpy(temp, "stop");
+				return temp;
 			}
 			// 다른 값이 들어온다면...
 			else {
-				UART_printString("It's not a str from 0 to 9. : ");
+				UART_printString("not a 0 to 9. : ");
 				UART_printString(buffer_data);
+				UART_printString("\n");
 			}
 		}
 	}
 	
 	
 	return buffer_data;
+}
+
+int ReceiveInfrared (void) {
+	
+	return 0;
 }
 
 void move_robotarm(int servo, int count){
