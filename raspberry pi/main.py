@@ -2,7 +2,7 @@ import RPi.GPIO as GPIO
 import time
 import serial
 
-ser = serial.Serial(port = '/dev/ttyS0',
+ser = serial.Serial(port = '/dev/ttyAMA0',
                     baudrate = 9600,
                     timeout = 1)
 
@@ -25,32 +25,39 @@ def uart_canmove():
 
 
 while True:
-    data = ser.readline().decode('utf-8').strip()
+    data = ser.readline().decode().strip()
     if (data == "====First Robot Arm===="):
-        print(f"1. Received data: {data}")
+        print(f"1. Receivede data: {data}")
+        
         stop_receive = 1
+        
         while (stop_receive != 0):
             
-            ### database 연결
-            print("num : ", end="")
-            print(ser.write(f'{str(num)}$'.encode('utf-8')))
-            # print(f'num : {num}')
+            #### database 연결
+            #print("num : ", end="")
+            #print(ser.write(f'{str(num)}$'.encode('utf-8')))
+            ## print(f'num : {num}')
+            
+            ser.write(f'{num}$'.encode())
+            print(f'{num}$'.encode())
 
             time.sleep(1)
-            data = ser.readline().decode('utf-8').strip()
-            if (data == "pass"):
+            
+            data = ser.readline().decode().strip()
+            
+            if ("pass" in data):
                 print(f">pass// num : {num}, data : {data}")
                 # print(f"num : {num}")
-                print("move!!")
+                #print("move!!")
                 num += 1
                 stop_receive = 0
-            elif (data == "end9"):
+            elif ("end" in data):
                 print(f">end// num : {num}, data : {data}")
                 # print(f"num : {num}")
-                print("stop!!")
+                #print("stop!!")
                 stop_receive = 0
-            # elif (not data):
-            #     pass
+            elif (data == "===First Robot Arm==="):
+                pass
             else:
                 print(f"what is Received data?: {data}")
 
