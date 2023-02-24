@@ -50,9 +50,9 @@ void uart_RasToAt();
 // 서보모터 초기화
 void INIT_SERVO();
 // 서보모터 움직이기
-void move_servo(int, int, int);
+void MoveServo(int, int, int);
 // 로봇암 쉽게 움직이기
-void move_robotarm(int, int);
+void MoveRobotArm(int, int);
 // 스테핑모터 초기화
 void INIT_STEPPER();
 // 스테핑모터 돌리기
@@ -94,81 +94,86 @@ int main(void)
 	UART_INIT();
 	_delay_ms(1000);
 	
-	//move_servo(SERVO_A(4), ANGLE(90), ANGLE(0));
+	//MoveRobotArm(1, 1);
+	//MoveServo(SERVO_A(4), ANGLE(90), ANGLE(0));
 	
 	while (1){
 		// LED ON
 		PORTB |= (1 << LED1);
 		
-		int pass = 0;
-		int part = 1;
-		
-		while (pass == 0) {
-			
-			if (part == 1){
-				/* PART1. 첫 번째 로봇팔 움직임 */
-				
-				// 로봇팔 움직일 수 있는지 확인
-				UART_printString("====First Robot Arm====\n");
-				temp = WhichCanMove();
-				
-				// return으로 stop을 받으면 실행을 종료한다.
-				if (strcmp(temp, "fisrt_robot_stop") == 0) {
-					PORTB |= (1 << LED2);
-					return 0;
-				}
-				
-				// pass를 받으면 실행
-				move_num = (int)temp;
-				move_robotarm(move_num + 1, 1);
-				part = 2;
-			}
-			
-			if (part == 2) {
-				
-				/* PART2. 첫 번째 로봇팔 움직임이 종료된 후 적외선 센서 값 받아오기 */
-				
-				// 적외선센서 값 받아오기
-				UART_printString("====First Infrared====\n");
-				temp = ReceiveInfrared();
-				
-				// 적외선 센서값을 받아오지 않으면 (컨베이어 벨트 위에 상자가 놓여있지 않으면) part1으로 이동
-				if (strcmp(temp, "conveyor_stp") == 0) {
-					PORTB |= (1 << LED2);
-					part = 1;
-					return 0;
-				}
-				else if (strcmp(temp, "go") == 0){
-					part = 3;
-				}
-			}
-			
-			if (part == 3) {
-				/* PART3. 컨베이어 벨트 */
-				UART_printString("====stepping motor====\n");
-				temp = ConveyorBeltStop();
-				
-				part = 4;
-			}
-			
-			if (part == 4) {
-				/* PART4. 두 번째 로봇팔 움직이기 */
-				UART_printString("====Second Robot Arm====\n");
-				
-				// Raspberry pi의 값(상자 색) 받아오기
-				// 상자 색에 맞춰 로봇팔 움직이기
-			}
-			
-			
-			
-			/* PART2. 스테핑모터 움직이기 */
-			
-			
-		}
-		
-		//// stop을 return받지 않으면 로봇팔 움직임
-		//move_num = (int)buffer_data;
-		//move_robotarm(move_num + 1, 1);
+		INIT_SERVO();
+		//MoveRobotArm(1, 1);
+		MoveServo(SERVO_A(3), ANGLE(90), ANGLE(0));
+		MoveServo(SERVO_A(3), ANGLE(0), ANGLE(90));
+		//int pass = 0;
+		//int part = 1;
+		//
+		//while (pass == 0) {
+			//
+			//if (part == 1){
+				///* PART1. 첫 번째 로봇팔 움직임 */
+				//
+				//// 로봇팔 움직일 수 있는지 확인
+				//UART_printString("====First Robot Arm====\n");
+				//temp = WhichCanMove();
+				//
+				//// return으로 stop을 받으면 실행을 종료한다.
+				//if (strcmp(temp, "fisrt_robot_stop") == 0) {
+					//PORTB |= (1 << LED2);
+					//return 0;
+				//}
+				//
+				//// pass를 받으면 실행
+				//move_num = (int)temp;
+				//MoveRobotArm(move_num + 1, 1);
+				//part = 2;
+			//}
+			//
+			//if (part == 2) {
+				//
+				///* PART2. 첫 번째 로봇팔 움직임이 종료된 후 적외선 센서 값 받아오기 */
+				//
+				//// 적외선센서 값 받아오기
+				//UART_printString("====First Infrared====\n");
+				//temp = ReceiveInfrared();
+				//
+				//// 적외선 센서값을 받아오지 않으면 (컨베이어 벨트 위에 상자가 놓여있지 않으면) part1으로 이동
+				//if (strcmp(temp, "conveyor_stp") == 0) {
+					//PORTB |= (1 << LED2);
+					//part = 1;
+					//return 0;
+				//}
+				//else if (strcmp(temp, "go") == 0){
+					//part = 3;
+				//}
+			//}
+			//
+			//if (part == 3) {
+				///* PART3. 컨베이어 벨트 */
+				//UART_printString("====stepping motor====\n");
+				//temp = ConveyorBeltStop();
+				//
+				//part = 4;
+			//}
+			//
+			//if (part == 4) {
+				///* PART4. 두 번째 로봇팔 움직이기 */
+				//UART_printString("====Second Robot Arm====\n");
+				//
+				//// Raspberry pi의 값(상자 색) 받아오기
+				//// 상자 색에 맞춰 로봇팔 움직이기
+			//}
+			//
+			//
+			//
+			///* PART2. 스테핑모터 움직이기 */
+			//
+			//
+		//}
+		//
+		////// stop을 return받지 않으면 로봇팔 움직임
+		////move_num = (int)buffer_data;
+		////MoveRobotArm(move_num + 1, 1);
 		
 		// LED OFF
 		PORTB &= ~(1 << LED1);
@@ -203,7 +208,7 @@ void INIT_SERVO(){
 	}
 }
 
-void move_servo(int servo, int start_angle, int end_angle) {
+void MoveServo(int servo, int start_angle, int end_angle) {
 	int angle;
 
 	if (start_angle <= end_angle) {
@@ -346,7 +351,7 @@ char ConveyorBeltStop (void) {
 	}
 }
 
-void move_robotarm(int servo, int count){
+void MoveRobotArm(int servo, int count){
 	
 	int i;
 	count -= 1;
@@ -355,12 +360,12 @@ void move_robotarm(int servo, int count){
 		case 1:
 		PORTB |= (1 << LED2);
 		for(i = 0; i < servo_max; i++){
-			move_servo(SERVO_A(move_Aarm_coord[count][i][0]), ANGLE(move_Aarm_coord[count][i][1]), ANGLE(move_Aarm_coord[count][i][2]));
+			MoveServo(SERVO_A(move_Aarm_coord[count][i][0]), ANGLE(move_Aarm_coord[count][i][1]), ANGLE(move_Aarm_coord[count][i][2]));
 		}
 		break;
 		//case 2:
 		//for(i = 0; i < servo_max; i++){
-		//move_servo(SERVO_B(move_Barm_coord[count][i][0]), ANGLE(move_Barm_coord[count][i][1]), ANGLE(move_Barm_coord[count][i][2]));
+		//MoveServo(SERVO_B(move_Barm_coord[count][i][0]), ANGLE(move_Barm_coord[count][i][1]), ANGLE(move_Barm_coord[count][i][2]));
 		//break;
 		//}
 	}

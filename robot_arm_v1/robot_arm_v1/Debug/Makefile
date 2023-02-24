@@ -46,6 +46,7 @@ C_SRCS +=  \
 ../test.c \
 ../UART.c \
 ../uart_main.c \
+../uart_test_led.c \
 ../uart_test_v1.c \
 ../uart_test_v2.c
 
@@ -66,6 +67,7 @@ switch.o \
 test.o \
 UART.o \
 uart_main.o \
+uart_test_led.o \
 uart_test_v1.o \
 uart_test_v2.o
 
@@ -79,6 +81,7 @@ switch.o \
 test.o \
 UART.o \
 uart_main.o \
+uart_test_led.o \
 uart_test_v1.o \
 uart_test_v2.o
 
@@ -92,6 +95,7 @@ switch.d \
 test.d \
 UART.d \
 uart_main.d \
+uart_test_led.d \
 uart_test_v1.d \
 uart_test_v2.d
 
@@ -105,6 +109,7 @@ switch.d \
 test.d \
 UART.d \
 uart_main.d \
+uart_test_led.d \
 uart_test_v1.d \
 uart_test_v2.d
 
@@ -179,6 +184,13 @@ LINKER_SCRIPT_DEP+=
 	
 
 ./uart_main.o: .././uart_main.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+./uart_test_led.o: .././uart_test_led.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
