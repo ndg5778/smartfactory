@@ -11,45 +11,44 @@
 //#define LED1 PB0
 //#define LED2 PB1
 //
-//void INIT_SERVO(){
+//// 서보모터 초기화
+//void INIT_SERVO();
+//
+//
+//int main(void) {
+	////LED_DDR |= (1 << LED1) | (1 << LED2);
+	////DDRB &= ~(1 << switch1);
 	//
-	//pca9685_init(0x00, 51); // start PCA9685 device 0x00 at 50 Hz output
-	//
-	//_delay_ms(5);
+	//PORTB |= (1 << LED1);
 	//
 	//int i;
 	//
-	//for (i = 0; i < 5; i++){
-		//pca9685_pwm(i, 1300);
-	//}
-//}
-//
-//int main(void) {
-	//LED_DDR |= (1 << LED1) | (1 << LED2);
-	//DDRB &= ~(1 << switch1);
-	//
-	//PORTB |= (1 << LED1);
 	//INIT_SERVO();
-	//
 	//_delay_ms(1000);
 	//
 	//while (1) {
-		////INIT_SERVO();
-		//int angle;
-		//for (angle = 1800; angle <= 600; angle -= 20) {
-			//PORTB |= 0x02;
-			//pca9685_pwm(3, angle);
-			//_delay_ms(20);
+		//for (i = 600; i <= 2400; ) {
+			//if (PINB & (1 << switch1)) {
+				//PORTB &= ~0x02;
+				//pca9685_pwm(0, i);
+				//i += 10;
+			//}
+			//else {
+				//PORTB |= 0x02;
+				//break;
+			//}
+			//_delay_ms(15);
 		//}
-		//for (angle = 600; angle <= 1800; angle += 20) {
-			//PORTB |= 0x02;
-			////pca9685_pwm(0, angle);
-			////pca9685_pwm(1, angle);
-			////pca9685_pwm(2, angle);
-			////pca9685_pwm(3, angle);
-			//pca9685_pwm(4, angle);
-			//_delay_ms(100);
-		//}
-		//_delay_ms(50);
+		//
+	//}
+//}
+//
+//void INIT_SERVO(){
+	//
+	//pca9685_init(0x00, 50); // start PCA9685 device 0x00 at 50 Hz output
+	//int i;
+	//
+	//for (i = 1; i <= 5; i++){
+		//pca9685_pwm(0, 1500);
 	//}
 //}
