@@ -182,6 +182,9 @@
     <Compile Include="uart_test_v2.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="use_pca9685.c">
+      <SubType>compile</SubType>
+    </Compile>
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

@@ -35,11 +35,11 @@
 #define switch1 PB2
 
 // servo pin
-#define SERVO_A(x) (x - 1)		// SERVO_A(1) = 0, 1, 2, 3, 4
-#define SERVO_B(x) (x + 4)		// SERVO_B(1) = 5, 6, 7, 8, 9
+#define SERVO_A(x) (uint8_t)(x - 1)		// SERVO_A(1) = 0, 1, 2, 3, 4
+#define SERVO_B(x) (uint8_t)(x + 4)		// SERVO_B(1) = 5, 6, 7, 8, 9
 
 // pulse
-#define ANGLE(x) ((10 * x) + 600)		// 600 ~ 2400
+#define ANGLE(x) (uint16_t)((10 * x) + 600)		// 600 ~ 2400
 
 #define servo_max 9
 #define TERMINATOR '$'
@@ -50,9 +50,9 @@ void uart_RasToAt();
 // 서보모터 초기화
 void INIT_SERVO();
 // 서보모터 움직이기
-void MoveServo(int, int, int);
+void MoveServo(uint8_t, uint16_t, uint16_t);
 // 로봇암 쉽게 움직이기
-void MoveRobotArm(int, int);
+void MoveRobotArm(uint8_t, int);
 // 스테핑모터 초기화
 void INIT_STEPPER();
 // 스테핑모터 돌리기
@@ -73,7 +73,7 @@ int move_Aarm_coord[9][servo_max][3] = {
 };
 
 // uart
-int index = 0;				// 수신 버퍼에 저장할 위치
+int uart_index = 0;				// 수신 버퍼에 저장할 위치
 int process_data = 0;		// 문자열 처리
 char buffer[20] = "";		// 수신 데이터 버퍼
 char buffer_data[20];
@@ -85,8 +85,8 @@ int main(void)
 	LED_DDR |= (1 << LED1) | (1 << LED2);
 	DDRB &= ~(1 << switch1);
 	
-	char temp;
-	int move_num;
+	//char temp;
+	//int move_num;
 	
 	// servo motor, stepping motor 초기화
 	INIT_SERVO();
@@ -103,8 +103,17 @@ int main(void)
 		
 		INIT_SERVO();
 		//MoveRobotArm(1, 1);
-		MoveServo(SERVO_A(3), ANGLE(90), ANGLE(0));
-		MoveServo(SERVO_A(3), ANGLE(0), ANGLE(90));
+		//MoveServo(SERVO_A(3), ANGLE(90), ANGLE(0));
+		//MoveServo(SERVO_A(3), ANGLE(0), ANGLE(90));
+		
+		//MoveRobotArm(1, 1);
+		MoveServo(SERVO_A(1), ANGLE(60), ANGLE(90));
+		MoveServo(SERVO_A(5), ANGLE(90), ANGLE(0));
+		MoveServo(SERVO_A(5), ANGLE(0), ANGLE(180));
+		_delay_ms(1000);
+		
+		INIT_SERVO();
+		
 		//int pass = 0;
 		//int part = 1;
 		//
@@ -169,8 +178,8 @@ int main(void)
 			///* PART2. 스테핑모터 움직이기 */
 			//
 			//
-		//}
-		//
+	//}
+	
 		////// stop을 return받지 않으면 로봇팔 움직임
 		////move_num = (int)buffer_data;
 		////MoveRobotArm(move_num + 1, 1);
@@ -187,13 +196,13 @@ void uart_RasToAt() {
 	data = UART_receive();	// 데이터 수신
 	if (data != ""){
 		if(data == TERMINATOR) {	// 종료 문자를 수신한 경우
-			buffer[index] = '\0';
+			buffer[uart_index] = '\0';
 			process_data = 1;		// 수신 문자열 처리 지시
-			index = 0;
+			uart_index = 0;
 		}
 		else {
-			buffer[index] = data;	// 수신 버퍼에 저장
-			index++;
+			buffer[uart_index] = data;	// 수신 버퍼에 저장
+			uart_index++;
 		}
 	}
 }
@@ -208,7 +217,7 @@ void INIT_SERVO(){
 	}
 }
 
-void MoveServo(int servo, int start_angle, int end_angle) {
+void MoveServo(uint8_t servo, uint16_t start_angle, uint16_t end_angle) {
 	int angle;
 
 	if (start_angle <= end_angle) {
@@ -245,7 +254,7 @@ void MoveServo(int servo, int start_angle, int end_angle) {
 char WhichCanMove() {
 	
 	int pass = 0;
-	char temp;
+	char temp[20];
 	
 	while (pass == 0){
 		//// 로봇팔 움직일 수 있는지 확인
@@ -263,7 +272,7 @@ char WhichCanMove() {
 				UART_printString(buffer_data);
 				UART_printString("\n");
 				pass = 1;
-				return buffer_data;
+				return (char)buffer_data;
 			}
 			// 9의 값일 들어오면 (배열이 꽉 찼음)
 			else if (strcmp(buffer_data, "9") == 0) {
@@ -288,7 +297,7 @@ char WhichCanMove() {
 char ReceiveInfrared (void) {
 	
 	int pass = 0;
-	char temp;
+	char temp[20];
 	
 	while (pass == 0){
 		
@@ -345,13 +354,13 @@ char ConveyorBeltStop (void) {
 					loop_stepper();
 				}
 			}
-			index = 0;
+			uart_index = 0;
 			process_data = 0;
 		}
 	}
 }
 
-void MoveRobotArm(int servo, int count){
+void MoveRobotArm(uint8_t servo, int count){
 	
 	int i;
 	count -= 1;
