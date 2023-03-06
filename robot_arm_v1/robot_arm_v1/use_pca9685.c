@@ -3,8 +3,8 @@
 //#include <util/delay.h> // include the delay library
 //#include "pca9685.h" // include the PCA9685 library
 //
-//#define test (uint8_t)0
-//#define test2 (uint8_t)1
+//#define test (uint8_t)4
+//#define test2 (uint8_t)3
 //#define min_angle (uint16_t)600
 //#define test_angle (uint16_t)1800
 //#define max_angle (uint16_t)1800
@@ -56,4 +56,3 @@
 	//}
 	//return 0;
 //}
-//
