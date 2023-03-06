@@ -2,7 +2,7 @@
 //#include <avr/io.h> // include the AVR IO library
 //#include <util/delay.h> // include the delay library
 //
-//#define LED1 PB3
+//#define LED1 PB0
 //
 //int main(void)
 //{
