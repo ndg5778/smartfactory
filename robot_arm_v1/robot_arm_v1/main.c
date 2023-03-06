@@ -65,7 +65,7 @@ int WhichCanMove();
 // 적외선센서 값 받기
 int ReceiveInfrared();
 // 컨베이어벨트 움직이고 멈추기
-char ConveyorBeltStop();
+int ConveyorBeltStop();
 
 
 int move_Aarm_coord[9][servo_max][3] = {
@@ -105,7 +105,7 @@ int main(void)
 		_delay_ms(1000);
 
 		int pass = 0;
-		int part = 3;
+		int part = 2;
 		
 		while (pass == 0) {
 			
@@ -153,7 +153,7 @@ int main(void)
 					UART_printString("GO_CONV\n");
 					part = 3;
 				}
-				else if (inf_value == 2) {
+				else if (inf_value == 0) {
 					PORTB |= (1 << LED2);
 					UART_printString("STOP_CONV\n");
 					part = 1;
@@ -163,8 +163,11 @@ int main(void)
 			if (part == 3) {
 				/* PART3. 컨베이어 벨트 */
 				UART_printString("====stepping motor====\n");
-				temp = ConveyorBeltStop();
-				part = 4;
+
+				int conv_move;
+				conv_move = ConveyorBeltStop();
+				
+				if (conv_move == 0)		part = 4;
 			}
 			
 			//if (part == 4) {
@@ -295,7 +298,8 @@ int WhichCanMove() {
 			// 다른 값이 들어온다면...
 			else {
 				UART_printString("not a 0 to 9. : ");
-				UART_printString(buffer_data);
+				
+				(buffer_data);
 				UART_printString("\n");
 			}
 		}
@@ -328,11 +332,14 @@ int ReceiveInfrared (void) {
 				UART_printString("conveyor belt stop\n");
 				PORTB &= ~(1 << LED1);
 				//strcpy(temp, "conveyor_stp");
-				return 2;
+				return 0;
 			}
 			// 다른 값이 들어온다면...
 			else {
-				UART_printString("test\n");
+				UART_printString("test : ");
+				UART_transmit(buffer_data);
+				UART_printString("\n");
+				return 2;
 			}
 		}
 	}
@@ -340,7 +347,7 @@ int ReceiveInfrared (void) {
 	return 0;
 }
 
-char ConveyorBeltStop (void) {
+int ConveyorBeltStop (void) {
 	
 	int pass = 1;
 	
@@ -349,7 +356,8 @@ char ConveyorBeltStop (void) {
 		int temp;
 		temp = ReceiveInfrared();
 		
-		if (temp != 2)		loop_stepper();
+		if (temp != 0)	loop_stepper();
+		else if (temp == 0) return 0;
 		
 		//uart_RasToAt();
 		//
