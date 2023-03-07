@@ -1,4 +1,4 @@
-﻿/**
+/**
  * By Preston Sundar
  *
  *
@@ -111,3 +111,32 @@ void pca9685_servo(uint8_t servoNum, float angle)
     i2c_tx_byte(offHighCmnd); // set value of LEDXX_OFF_H
     i2c_tx_stop();
 }
+
+void pca9685_pwm(uint8_t servoNum, uint16_t usec){
+	
+	//if (usec > 2400)	usec = 2400;
+	//else if (usec < 600) usec = 600;
+	
+	uint16_t pulse_us = usec; //1500 + angle*10;
+
+	uint16_t period_us = 20000; // (float)1000000 / 50Hz;
+	uint16_t count = (float)pulse_us/20000 * 4096; //((float)pulse_us / period_us) * 4096;
+
+	uint8_t offLowCmnd = count;
+	uint8_t offHighCmnd = count >> 8;
+
+	i2c_tx_start(MASTER_TRANSMITTER);
+	i2c_tx_address(0x40 + globalAddress); 
+	i2c_tx_byte(SERVO0 + (4 * servoNum));
+	i2c_tx_byte(0x00); 
+	i2c_tx_byte(0x00); 
+	i2c_tx_byte(offLowCmnd); 
+	i2c_tx_byte(offHighCmnd); 
+	i2c_tx_stop();
+}
+
+//! PWM a single channel
+/*!
+ \param led channel (1-16) to set PWM value for
+ \param value 0-4095 value for PWM
+ */
