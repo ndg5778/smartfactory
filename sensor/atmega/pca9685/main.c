@@ -13,6 +13,7 @@ int main(void)
 	_delay_ms(1000);
 
 	while (1) {
+		// angle
 		//pca9685_servo(1, 0); // set servo0 position to 0 degrees
 		for (angle = -90; angle <= 90; angle += 5) {
 			pca9685_servo(0, angle);
@@ -23,6 +24,16 @@ int main(void)
 			//pca9685_servo(0, angle);
 			pca9685_servo(1, angle);
 			_delay_ms(25);
+		}
+		
+		// pwm
+		for (angle = 1700; angle <= 2000; angle += 20) {
+			pca9685_pwm(0, angle);
+			_delay_ms(50);
+		}
+		for (angle = 2000; angle >= 1700; angle -= 20) {
+			pca9685_pwm(0, angle);
+			_delay_ms(50);
 		}
 	}
 	return 0;
