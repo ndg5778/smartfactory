@@ -27,13 +27,13 @@ int main(void)
 		}
 		
 		// pwm
-		for (angle = 1700; angle <= 2000; angle += 20) {
+		for (angle = 600; angle <= 2400; angle += 20) {
 			pca9685_pwm(0, angle);
-			_delay_ms(50);
+			_delay_ms(25);
 		}
-		for (angle = 2000; angle >= 1700; angle -= 20) {
+		for (angle = 2400; angle >= 600; angle -= 20) {
 			pca9685_pwm(0, angle);
-			_delay_ms(50);
+			_delay_ms(25);
 		}
 	}
 	return 0;
