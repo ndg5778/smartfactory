@@ -9,10 +9,6 @@
 #define servo4 (uint8_t)3
 #define servo5 (uint8_t)4
 
-#define min_angle (uint16_t)600
-#define test_angle (uint16_t)2400
-#define max_angle (uint16_t)2400
-
 // LED (상태등)
 #define LED_DDR DDRB
 #define LED_PORT PORTB
@@ -36,8 +32,8 @@ uint16_t move_Aarm_coord[9][servo_max][3] = {
 	}
 };
 
-
-//void INIT_SERVO();
+// 서보모터 초기화
+void INIT_SERVO();
 // 서보모터 움직이기
 void MoveServo(uint8_t, uint16_t, uint16_t);
 // 로봇암 쉽게 움직이기
@@ -62,34 +58,63 @@ int main(void)
 		LED_PORT |= (1 << LED1);
 		
 		//MoveRobotArm(1, 0);
-
-		//MoveServo(SERVO_A(2), ANGLE(90), ANGLE(55));
+		
+		INIT_SERVO();
+		_delay_ms(1000);	
+	
+		/* 첫 번째 코드 */
+		MoveServo(SERVO_A(1), ANGLE(90), ANGLE(92));
+		_delay_ms(100);
+		MoveServo(SERVO_A(4), ANGLE(90), ANGLE(140));
+		_delay_ms(100);
+		MoveServo(SERVO_A(2), ANGLE(90), ANGLE(65));
+		_delay_ms(100);
+		MoveServo(SERVO_A(3), ANGLE(90), ANGLE(-23));
+		_delay_ms(100);
+		MoveServo(SERVO_A(5), ANGLE(45), ANGLE(15));
+		_delay_ms(100);
+//
+		//MoveServo(SERVO_A(2), ANGLE(65), ANGLE(90));
 		//_delay_ms(100);
-		//MoveServo(SERVO_A(3), ANGLE(90), ANGLE(18));
+		//MoveServo(SERVO_A(3), ANGLE(-23), ANGLE(90));
 		//_delay_ms(100);
-		//MoveServo(SERVO_A(4), ANGLE(90), ANGLE(30));
+		//MoveServo(SERVO_A(4), ANGLE(140), ANGLE(90));
 		//_delay_ms(100);
-		//MoveServo(SERVO_A(5), ANGLE(45), ANGLE(20));
-		//_delay_ms(100);
-		//MoveServo(SERVO_A(4), ANGLE(30), ANGLE(90));
-		//_delay_ms(100);
-		//MoveServo(SERVO_A(3), ANGLE(18), ANGLE(90));
-		//_delay_ms(100);
-		//MoveServo(SERVO_A(2), ANGLE(55), ANGLE(90));
+		//MoveServo(SERVO_A(1), ANGLE(92), ANGLE(90));
 		//_delay_ms(100);
 		//MoveServo(SERVO_A(5), ANGLE(20), ANGLE(45));
 		//_delay_ms(100);
 
-		//MoveServo(SERVO_A(2), ANGLE(90), ANGLE(60));
-		//_delay_ms(100);
-		//MoveServo(SERVO_A(2), ANGLE(60), ANGLE(90));
-		//_delay_ms(100);
+		/*수정하기*/
+		MoveServo(SERVO_A(4), ANGLE(140), ANGLE(180));
+		_delay_ms(100);
+		MoveServo(SERVO_A(3), ANGLE(-23), ANGLE(90));
+		_delay_ms(100);
+		MoveServo(SERVO_A(2), ANGLE(65), ANGLE(90));
+		_delay_ms(100);
 
-		pca9685_pwm(SERVO_A(1), ANGLE(90));
-		pca9685_pwm(SERVO_A(2), ANGLE(65));
-		pca9685_pwm(SERVO_A(3), ANGLE(-20));
-		pca9685_pwm(SERVO_A(4), ANGLE(140));
-		pca9685_pwm(SERVO_A(5), ANGLE(45));
+		MoveServo(SERVO_A(1), ANGLE(92), ANGLE(135));
+		_delay_ms(100);
+		MoveServo(SERVO_A(2), ANGLE(90), ANGLE(85));
+		_delay_ms(100);
+		MoveServo(SERVO_A(3), ANGLE(90), ANGLE(-25));
+		_delay_ms(100);
+		MoveServo(SERVO_A(4), ANGLE(180), ANGLE(150));
+		_delay_ms(100);
+		MoveServo(SERVO_A(5), ANGLE(15), ANGLE(45));
+		_delay_ms(100);
+
+		MoveServo(SERVO_A(2), ANGLE(85), ANGLE(90));
+		_delay_ms(100);
+		MoveServo(SERVO_A(1), ANGLE(135), ANGLE(90));
+		_delay_ms(100);
+
+
+		//pca9685_pwm(SERVO_A(1), ANGLE(135));
+		//pca9685_pwm(SERVO_A(2), ANGLE(85));
+		//pca9685_pwm(SERVO_A(3), ANGLE(-25));
+		//pca9685_pwm(SERVO_A(4), ANGLE(150));
+		//pca9685_pwm(SERVO_A(5), ANGLE(45));
 		
 		LED_PORT &= ~(1 << LED1);
 		
@@ -120,13 +145,14 @@ void MoveServo(uint8_t servo, uint16_t start_angle, uint16_t end_angle) {
 			if (PINB & (1 << switch1)) {
 				PORTB &= ~0x02;
 				pca9685_pwm(servo, angle);
-				angle += 10;
+				//angle += 10;
+				angle++;
 			}
 			else {
 				PORTB |= 0x02;
 				break;
 			}
-			_delay_ms(15);
+			_delay_ms(1);
 		}
 	}
 	
@@ -135,13 +161,14 @@ void MoveServo(uint8_t servo, uint16_t start_angle, uint16_t end_angle) {
 			if (PINB & (1 << switch1)) {
 				PORTB &= ~0x02;
 				pca9685_pwm(servo, angle);
-				angle -= 10;
+				//angle -= 10;
+				angle--;
 			}
 			else {
 				PORTB |= 0x02;
 				break;
 			}
-			_delay_ms(15);
+			_delay_ms(1);
 		}
 	}
 
