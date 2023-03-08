@@ -42,7 +42,7 @@
 // pulse
 #define ANGLE(x) (uint16_t)((10 * x) + 600)		// 600 ~ 2400
 
-#define servo_max 9
+#define servo_max 10
 #define TERMINATOR '$'
 
 /* 함수 */
@@ -70,7 +70,9 @@ int ConveyorBeltStop();
 
 
 uint16_t move_Aarm_coord[9][servo_max][3] = {
-	{{1, 90, 0}, {2, 90, 0}, {4, 90, 0}, {5, 90, 30}, {2, 30, 90}, {1, 0, 90}, {1, 90, 180}, {2, 90, 00}, {5, 0, 90}}
+	{
+		{1, 90, 120}, {1, 120, 90}, {2, 90, 120}, {2, 120, 90}, {3, 90, 120}, {3, 120, 90}, {4, 90, 180}, {4, 180, 90}, {5, 45, 0}, {5, 0, 45}
+	}
 };
 
 // uart
@@ -95,12 +97,7 @@ int main(void)
 	UART_INIT();
 	_delay_ms(1000);
 	
-	//MoveRobotArm((uint8_t)1, (uint8_t)0);
-	while(1){
-		MoveServo(SERVO_A(4), ANGLE(90), ANGLE(0));
-		MoveServo(SERVO_A(3), ANGLE(90), ANGLE(0));
-	}
-	//MoveServo(SERVO_A(4), ANGLE(90), ANGLE(0));
+	//MoveRobotArm(1, 0);
 	
 	while (1){
 		// LED ON
@@ -111,32 +108,29 @@ int main(void)
 
 		int pass = 0;
 		int part = 1;
+		int uart_right = 0;
 		
 		while (pass == 0) {
-			//MoveRobotArm(1, 0);
 			
 			if (part == 1){
 				/* PART1. 첫 번째 로봇팔 움직임 */
 				
 				// 로봇팔 움직일 수 있는지 확인
+				uart_right = 0;
+					
 				UART_printString("====First Robot Arm====\n");
 				move_num = WhichCanMove();
 				
-				// return으로 stop을 받으면 실행을 종료한다.				
+				// return으로 stop을 받으면 실행을 종료한다.
 				if (move_num == 9){
 					PORTB |= (1 << LED2);
 					return 0;
 				}
 				else if (0 <= move_num && move_num < 9) {
 					//UART_printString("YES!!!!!!!!!!\n");
-					//MoveRobotArm(1, move_num);
+					MoveRobotArm(1, move_num);
 					part = 2;
 				}
-				
-				//// pass를 받으면 실행				
-				//move_num = (int)uart_temp;
-				//MoveRobotArm(move_num + 1, 1);
-				//part = 2;
 			}
 			
 			if (part == 2) {
@@ -167,7 +161,7 @@ int main(void)
 				int conv_move;
 				conv_move = ConveyorBeltStop();
 				
-				if (conv_move == 0)		part = 4;
+				if (conv_move == 0)	part = 4;
 			}
 			
 			if (part == 4) {
@@ -177,8 +171,8 @@ int main(void)
 				// Raspberry pi의 값(상자 색) 받아오기
 				// 상자 색에 맞춰 로봇팔 움직이기
 			}
-	}
-	
+		}
+		
 		////// stop을 return받지 않으면 로봇팔 움직임
 		////move_num = (int)buffer_data;
 		////MoveRobotArm(move_num + 1, 1);
@@ -207,14 +201,17 @@ void uart_RasToAt() {
 }
 
 void INIT_SERVO(){
-	
+
 	pca9685_init(0x00, 50); // start PCA9685 device 0x00 at 50 Hz output
 	int i;
-	
-	for (i = 1; i <= 5; i++){
+
+	for (i = 1; i <= 4; i++){
 		pca9685_pwm(SERVO_A(i), ANGLE(90));
 		_delay_ms(20);
 	}
+
+	pca9685_pwm(SERVO_A(5), ANGLE(45));
+	_delay_ms(200);
 }
 
 
@@ -325,25 +322,25 @@ int ConveyorBeltStop (void) {
 		//uart_RasToAt();
 		//
 		//if(process_data == 1){		// 문자열 처리
-			//strcpy(buffer_data, buffer);
-			//if((strcmp(buffer_data, "mov") != 0) && (strcmp(buffer_data, "stp") != 0)){
-				//UART_printString("** Unknown Command **\t: ");
-				//UART_printString(buffer);
-				//UART_printString("\n");
-			//}
-			//else if (strcmp(buffer_data, "mov") == 0) {
-				//UART_printString("MOVE!");
-				//UART_printString("\n");
-				//loop_stepper();
-				//
-				//while(!(strcmp(buffer_data, "stp") == 0)){
-					//UART_printString("STOP!!");
-					//UART_printString("\n");
-					//uart_RasToAt();
-				//}
-			//}
-			//uart_index = 0;
-			//process_data = 0;
+		//strcpy(buffer_data, buffer);
+		//if((strcmp(buffer_data, "mov") != 0) && (strcmp(buffer_data, "stp") != 0)){
+		//UART_printString("** Unknown Command **\t: ");
+		//UART_printString(buffer);
+		//UART_printString("\n");
+		//}
+		//else if (strcmp(buffer_data, "mov") == 0) {
+		//UART_printString("MOVE!");
+		//UART_printString("\n");
+		//loop_stepper();
+		//
+		//while(!(strcmp(buffer_data, "stp") == 0)){
+		//UART_printString("STOP!!");
+		//UART_printString("\n");
+		//uart_RasToAt();
+		//}
+		//}
+		//uart_index = 0;
+		//process_data = 0;
 		//}
 	}
 }
@@ -385,7 +382,6 @@ void MoveServo(uint8_t servo, uint16_t start_angle, uint16_t end_angle) {
 void MoveRobotArm(uint8_t servo, uint8_t count){
 	
 	int i;
-	//count -= 1;
 	
 	switch (servo){
 		case 1:
