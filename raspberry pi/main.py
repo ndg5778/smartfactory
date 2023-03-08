@@ -27,6 +27,8 @@ while True:
     try:
         data = ser.readline().decode().strip()
         if (data == "====First Robot Arm===="):
+            for i in range(10):
+                ser.write(b'First$')
             print(f"1. Receivede data: {data}")
             
             stop_receive = 1
@@ -38,7 +40,7 @@ while True:
                 #print(ser.write(f'{str(num)}$'.encode('utf-8')))
                 ## print(f'num : {num}')
                 
-                num = int(input("몇 번째 어쩌구 : "))
+                num = input("몇 번째 어쩌구 : ")
 
                 ser.write(f'{num}$'.encode())
                 print(f'{num}$'.encode())
@@ -96,18 +98,20 @@ while True:
                 
                 state_B = GPIO.input(infrared_B)
                 if (state_B == 0):
-                    ser.write(b'stp$')
-                    print(f"{t.tm_hour}:{t.tm_min}:{t.tm_sec} - send data : {state_B}")
+                    for i in range(5):
+                        ser.write(b'stp$')
+                        print(f"{t.tm_hour}:{t.tm_min}:{t.tm_sec} - send data : {state_B}")
+                        time.sleep(1)
                     # print(f"send data A : {state_B}")
                     time.sleep(1)
                     stop_receive = 0
                 # elif (stop_receive == 2 and state_B == 1):
                 #     ser.write(b'mov$')
                 elif (state_B == 1):
-                    ser.write(b'go$')
+                    ser.write(b'go$')   
                     print(f"{t.tm_hour}:{t.tm_min}:{t.tm_sec} - send data : {state_B}")
                     # print(f"send data B : {state_B}")
-                    # time.sleep(0.05)
+                    time.sleep(0.05)
         elif(data == ""):
             pass
         else:
