@@ -1,81 +1,169 @@
-﻿//#define F_CPU 16000000L
-//#include <avr/io.h>
-//#include <util/delay.h>
-//#include <stdlib.h>
-//
-//#define PCA9685_ADDR 0x40
-//#define PRESCALE 121 // corresponds to 50 Hz frequency
-//#define SERVO_PIN 0
-//
-//void i2c_init() {
-	//// initialize I2C bus at 100 kHz
-	//TWSR = 0;
-	//TWBR = ((F_CPU / 100000L) - 16) / 2;
-//}
-//
-//void i2c_start() {
-	//// send start condition
-	//TWCR = (1<<TWINT) | (1<<TWSTA) | (1<<TWEN);
-	//while (!(TWCR & (1<<TWINT)));
-//}
-//
-//void i2c_write(uint8_t data) {
-	//// send data byte
-	//TWDR = data;
-	//TWCR = (1<<TWINT) | (1<<TWEN);
-	//while (!(TWCR & (1<<TWINT)));
-//}
-//
-//void i2c_stop() {
-	//// send stop condition
-	//TWCR = (1<<TWINT) | (1<<TWSTO) | (1<<TWEN);
-//}
-//
-//void pca9685_init() {
-	//// set prescale value
-	//i2c_start();
-	//i2c_write(PCA9685_ADDR << 1);
-	//i2c_write(0xFE); // prescale register
-	//i2c_write(PRESCALE);
-	//i2c_stop();
-	//_delay_ms(5);
-	//
-	//// set sleep mode to off
-	//i2c_start();
-	//i2c_write(PCA9685_ADDR << 1);
-	//i2c_write(0x00); // mode1 register
-	//i2c_write(0x01); // restart and auto-increment mode
-	//i2c_stop();
-	//_delay_ms(5);
-//}
-//
-//void set_servo_angle(uint8_t angle) {
-	//// convert angle to pulse width (1-2 ms)
-	////uint16_t pulse_width = 500 + (angle * 11) / 10;
-	//// set PWM signal on PCA9685
-	//i2c_start();
-	//i2c_write(PCA9685_ADDR << 1);
-	//i2c_write(SERVO_PIN * 4 + 6); // LED0_ON_L register
-	//i2c_write(0); // low byte of pulse width
-	//i2c_write(0); // high byte of pulse width
-	//i2c_write(0); // low byte of pulse width (repeat)
-	//i2c_write(0); // high byte of pulse width (repeat)
-	//i2c_stop();
-//}
-//
-//int main(void) {
-	//i2c_init();
-	//pca9685_init();
-	//// move servo to 0 degrees
-	//set_servo_angle(0);
-	//_delay_ms(1000);
-	//// move servo to 90 degrees
-	//set_servo_angle(90);
-	//_delay_ms(1000);
-	//// move servo to 180 degrees
-	//set_servo_angle(180);
-	//_delay_ms(1000);
-	//while(1) {
-		//// do nothing
-	//}
-//}
+﻿#define F_CPU 16000000L
+#include <avr/io.h> // include the AVR IO library
+#include <util/delay.h> // include the delay library
+#include "pca9685.h" // include the PCA9685
+
+#define servo1 (uint8_t)0
+#define servo2 (uint8_t)1
+#define servo3 (uint8_t)2
+#define servo4 (uint8_t)3
+#define servo5 (uint8_t)4
+
+#define min_angle (uint16_t)600
+#define test_angle (uint16_t)2400
+#define max_angle (uint16_t)2400
+
+// LED (상태등)
+#define LED_DDR DDRB
+#define LED_PORT PORTB
+#define LED1 PB0
+#define LED2 PB1
+
+// 스위치
+#define switch1 PB2
+
+#define SERVO_A(x) (uint8_t)(x - 1)		// SERVO_A(1) = 0, 1, 2, 3, 4
+#define SERVO_B(x) (uint8_t)(x + 4)		// SERVO_B(1) = 5, 6, 7, 8, 9
+
+// pulse
+#define ANGLE(x) (uint16_t)((10 * x) + 600)		// 600 ~ 2400
+
+#define servo_max 10
+
+uint16_t move_Aarm_coord[9][servo_max][3] = {
+	{
+		{1, 90, 120}, {1, 120, 90}, {2, 90, 120}, {2, 120, 90}, {3, 90, 120}, {3, 120, 90}, {4, 90, 180}, {4, 180, 90}, {5, 45, 0}, {5, 0, 45}
+	}
+};
+
+
+//void INIT_SERVO();
+// 서보모터 움직이기
+void MoveServo(uint8_t, uint16_t, uint16_t);
+// 로봇암 쉽게 움직이기
+void MoveRobotArm(uint8_t, uint8_t);
+
+int main(void)
+{
+	LED_DDR |= (1 << LED1) | (1 << LED2);
+	//LED_PORT |= (1 << LED2);
+	
+	pca9685_init(0x00, 50); // start PCA9685 device 0x00 at 50 Hz output
+
+	//LED_PORT |= (1 << LED1);
+	_delay_ms(5);
+	
+	//uint16_t angle = 0;
+	_delay_ms(1000);
+
+	//INIT_SERVO();
+
+	while (1) {
+		LED_PORT |= (1 << LED1);
+		
+		//MoveRobotArm(1, 0);
+
+		//MoveServo(SERVO_A(2), ANGLE(90), ANGLE(55));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(3), ANGLE(90), ANGLE(18));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(4), ANGLE(90), ANGLE(30));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(5), ANGLE(45), ANGLE(20));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(4), ANGLE(30), ANGLE(90));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(3), ANGLE(18), ANGLE(90));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(2), ANGLE(55), ANGLE(90));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(5), ANGLE(20), ANGLE(45));
+		//_delay_ms(100);
+
+		//MoveServo(SERVO_A(2), ANGLE(90), ANGLE(60));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(2), ANGLE(60), ANGLE(90));
+		//_delay_ms(100);
+
+		pca9685_pwm(SERVO_A(1), ANGLE(90));
+		pca9685_pwm(SERVO_A(2), ANGLE(65));
+		pca9685_pwm(SERVO_A(3), ANGLE(-20));
+		pca9685_pwm(SERVO_A(4), ANGLE(140));
+		pca9685_pwm(SERVO_A(5), ANGLE(45));
+		
+		LED_PORT &= ~(1 << LED1);
+		
+	}
+	return 0;
+}
+
+void INIT_SERVO(){
+
+	pca9685_init(0x00, 50); // start PCA9685 device 0x00 at 50 Hz output
+	int i;
+
+	for (i = 1; i <= 4; i++){
+		pca9685_pwm(SERVO_A(i), ANGLE(90));
+		_delay_ms(20);
+	}
+
+	pca9685_pwm(SERVO_A(5), ANGLE(45));
+	_delay_ms(200);
+
+}
+
+void MoveServo(uint8_t servo, uint16_t start_angle, uint16_t end_angle) {
+	int angle;
+
+	if (start_angle <= end_angle) {
+		for (angle = start_angle; angle <= end_angle; ) {
+			if (PINB & (1 << switch1)) {
+				PORTB &= ~0x02;
+				pca9685_pwm(servo, angle);
+				angle += 10;
+			}
+			else {
+				PORTB |= 0x02;
+				break;
+			}
+			_delay_ms(15);
+		}
+	}
+	
+	else {
+		for (angle = start_angle; angle >= end_angle; ) {
+			if (PINB & (1 << switch1)) {
+				PORTB &= ~0x02;
+				pca9685_pwm(servo, angle);
+				angle -= 10;
+			}
+			else {
+				PORTB |= 0x02;
+				break;
+			}
+			_delay_ms(15);
+		}
+	}
+
+	_delay_ms(100);
+}
+
+void MoveRobotArm(uint8_t servo, uint8_t count) {
+	
+	int i;
+	
+	switch (servo){
+		case 1:
+		PORTB |= (1 << LED2);
+		for(i = 0; i < servo_max; i++){
+			MoveServo(SERVO_A(move_Aarm_coord[count][i][0]), ANGLE(move_Aarm_coord[count][i][1]), ANGLE(move_Aarm_coord[count][i][2]));
+		}
+		break;
+		//case 2:
+		//for(i = 0; i < servo_max; i++){
+		//MoveServo(SERVO_B(move_Barm_coord[count][i][0]), ANGLE(move_Barm_coord[count][i][1]), ANGLE(move_Barm_coord[count][i][2]));
+		//break;
+		//}
+	}
+	
+}
