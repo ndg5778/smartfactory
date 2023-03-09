@@ -32,6 +32,12 @@ uint16_t move_Aarm_coord[9][servo_max][3] = {
 		{4, 140, 180}, {3, -23, 30}, {4, 180, 90}, {3, 30, 90}, {2, 65, 90},
 		{1, 92, 135}, {2, 90, 85}, {3, 90, 30}, {4, 90, 150}, {3, 30, -25}, {5, 15, 45}, {2, 85, 90}, {1, 135, 90}
 			
+	},
+	
+	{
+		{1, 90, 72}, {4, 90, 180}, {2, 90, 68}, {3, 90, -25}, {4, 180, 130}, {5, 45, 15},
+		{4, 130, 180}, {2, 68, 90}, {4, 180, 90}, {3, -25, 90},
+		{1, 72, 135}, {2, 90, 85}, {3, 90, 30}, {4, 90, 150}, {3, 30, -25}, {5, 15, 45}, {2, 85, 90}, {1, 135, 90}
 	}
 };
 
@@ -61,61 +67,64 @@ int main(void)
 	while (1) {
 		LED_PORT |= (1 << LED1);
 		
-		//MoveRobotArm(1, 0);
 		
 		INIT_SERVO();
 		_delay_ms(1000);
 		
 		/* 함수 이용하기 */
-		MoveRobotArm(1, 0);
+		MoveRobotArm(1, 1);
 	
-		/* 집기 */
-		MoveServo(SERVO_A(1), ANGLE(90), ANGLE(92));
-		_delay_ms(100);
-		MoveServo(SERVO_A(4), ANGLE(90), ANGLE(140));
-		_delay_ms(100);
-		MoveServo(SERVO_A(2), ANGLE(90), ANGLE(65));
-		_delay_ms(100);
-		MoveServo(SERVO_A(3), ANGLE(90), ANGLE(-23));
-		_delay_ms(100);
-		MoveServo(SERVO_A(5), ANGLE(45), ANGLE(15));
-		_delay_ms(100);
+		///* 집기 */
+		//MoveServo(SERVO_A(1), ANGLE(90), ANGLE(48));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(4), ANGLE(90), ANGLE(180));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(2), ANGLE(90), ANGLE(63));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(3), ANGLE(90), ANGLE(-20));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(4), ANGLE(180), ANGLE(140));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(5), ANGLE(45), ANGLE(15));
+		//_delay_ms(100);
+		//
+//
+		///* 들기 */
+		//MoveServo(SERVO_A(4), ANGLE(140), ANGLE(180));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(2), ANGLE(68), ANGLE(90));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(4), ANGLE(180), ANGLE(90));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(3), ANGLE(-20), ANGLE(90));
+		//_delay_ms(100);
 
-		/* 들기 */
-		MoveServo(SERVO_A(4), ANGLE(140), ANGLE(180));
-		_delay_ms(100);
-		MoveServo(SERVO_A(3), ANGLE(-23), ANGLE(30));
-		_delay_ms(100);
-		MoveServo(SERVO_A(4), ANGLE(180), ANGLE(90));
-		_delay_ms(100);
-		MoveServo(SERVO_A(3), ANGLE(30), ANGLE(90));
-		_delay_ms(100);
-		MoveServo(SERVO_A(2), ANGLE(65), ANGLE(90));
-		_delay_ms(100);
 
 		/* 놓기 */
-		MoveServo(SERVO_A(1), ANGLE(92), ANGLE(135));
-		_delay_ms(100);
-		MoveServo(SERVO_A(2), ANGLE(90), ANGLE(85));
-		_delay_ms(100);
-		MoveServo(SERVO_A(3), ANGLE(90), ANGLE(30));
-		_delay_ms(100);
-		MoveServo(SERVO_A(4), ANGLE(90), ANGLE(150));
-		_delay_ms(100);
-		MoveServo(SERVO_A(3), ANGLE(30), ANGLE(-25));
-		_delay_ms(100);
-		MoveServo(SERVO_A(5), ANGLE(15), ANGLE(45));
-		_delay_ms(100);
-		MoveServo(SERVO_A(2), ANGLE(85), ANGLE(90));
-		_delay_ms(100);
-		MoveServo(SERVO_A(1), ANGLE(135), ANGLE(90));
-		_delay_ms(100);
+		//MoveServo(SERVO_A(1), ANGLE(48), ANGLE(136));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(2), ANGLE(90), ANGLE(85));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(3), ANGLE(90), ANGLE(30));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(4), ANGLE(90), ANGLE(150));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(3), ANGLE(30), ANGLE(-25));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(5), ANGLE(15), ANGLE(45));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(2), ANGLE(85), ANGLE(90));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(1), ANGLE(135), ANGLE(90));
+		//_delay_ms(100);
+		
+		_delay_ms(50000);
 		
 		/* 각도 찾기 */
-		//pca9685_pwm(SERVO_A(1), ANGLE(135));
-		//pca9685_pwm(SERVO_A(2), ANGLE(85));
-		//pca9685_pwm(SERVO_A(3), ANGLE(-25));
-		//pca9685_pwm(SERVO_A(4), ANGLE(150));
+		//pca9685_pwm(SERVO_A(1), ANGLE(49));
+		//pca9685_pwm(SERVO_A(2), ANGLE(63));
+		//pca9685_pwm(SERVO_A(3), ANGLE(-20));
+		//pca9685_pwm(SERVO_A(4), ANGLE(140));
 		//pca9685_pwm(SERVO_A(5), ANGLE(45));
 		
 		LED_PORT &= ~(1 << LED1);
