@@ -19,7 +19,7 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY, DEBUGGING
   7 .debug_abbrev 0000092a  00000000  00000000  00002534  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000a98  00000000  00000000  00002e5e  2**0
+  8 .debug_line   00000a99  00000000  00000000  00002e5e  2**0
                   CONTENTS, READONLY, DEBUGGING
   9 .debug_frame  000001b4  00000000  00000000  000038f8  2**2
                   CONTENTS, READONLY, DEBUGGING
@@ -656,7 +656,7 @@ int main(void)
  43c:	00 00       	nop
 		_delay_ms(1000);	
 	
-		/* 첫 번째 코드 */
+		/* 집기 */
 		MoveServo(SERVO_A(1), ANGLE(90), ANGLE(92));
  43e:	40 ef       	ldi	r20, 0xF0	; 240
  440:	55 e0       	ldi	r21, 0x05	; 5
@@ -741,11 +741,9 @@ int main(void)
  4d8:	e1 f7       	brne	.-8      	; 0x4d2 <__EEPROM_REGION_LENGTH__+0xd2>
  4da:	00 c0       	rjmp	.+0      	; 0x4dc <__EEPROM_REGION_LENGTH__+0xdc>
  4dc:	00 00       	nop
-		//_delay_ms(100);
-		//MoveServo(SERVO_A(5), ANGLE(20), ANGLE(45));
-		//_delay_ms(100);
+		_delay_ms(100);
 
-		/*수정하기*/
+		/* 들기 */
 		MoveServo(SERVO_A(4), ANGLE(140), ANGLE(180));
  4de:	40 e6       	ldi	r20, 0x60	; 96
  4e0:	59 e0       	ldi	r21, 0x09	; 9
@@ -832,6 +830,7 @@ int main(void)
  57c:	00 00       	nop
 		_delay_ms(100);
 
+		/* 놓기 */
 		MoveServo(SERVO_A(1), ANGLE(92), ANGLE(135));
  57e:	4e e9       	ldi	r20, 0x9E	; 158
  580:	57 e0       	ldi	r21, 0x07	; 7
@@ -934,7 +933,6 @@ int main(void)
  63a:	00 c0       	rjmp	.+0      	; 0x63c <__EEPROM_REGION_LENGTH__+0x23c>
  63c:	00 00       	nop
 		_delay_ms(100);
-
 		MoveServo(SERVO_A(2), ANGLE(85), ANGLE(90));
  63e:	4c ed       	ldi	r20, 0xDC	; 220
  640:	55 e0       	ldi	r21, 0x05	; 5

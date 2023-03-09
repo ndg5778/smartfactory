@@ -24,13 +24,17 @@
 // pulse
 #define ANGLE(x) (uint16_t)((10 * x) + 600)		// 600 ~ 2400
 
-#define servo_max 10
+#define servo_max 18
 
 uint16_t move_Aarm_coord[9][servo_max][3] = {
 	{
-		{1, 90, 120}, {1, 120, 90}, {2, 90, 120}, {2, 120, 90}, {3, 90, 120}, {3, 120, 90}, {4, 90, 180}, {4, 180, 90}, {5, 45, 0}, {5, 0, 45}
+		{1, 90, 92}, {4, 90, 140}, {2, 90, 65}, {3, 90, -23}, {5, 45, 15},
+		{4, 140, 180}, {3, -23, 30}, {4, 180, 90}, {3, 30, 90}, {2, 65, 90},
+		{1, 92, 135}, {2, 90, 85}, {3, 90, 30}, {4, 90, 150}, {3, 30, -25}, {5, 15, 45}, {2, 85, 90}, {1, 135, 90}
+			
 	}
 };
+
 
 // 서보모터 초기화
 void INIT_SERVO();
@@ -60,9 +64,12 @@ int main(void)
 		//MoveRobotArm(1, 0);
 		
 		INIT_SERVO();
-		_delay_ms(1000);	
+		_delay_ms(1000);
+		
+		/* 함수 이용하기 */
+		MoveRobotArm(1, 0);
 	
-		/* 첫 번째 코드 */
+		/* 집기 */
 		MoveServo(SERVO_A(1), ANGLE(90), ANGLE(92));
 		_delay_ms(100);
 		MoveServo(SERVO_A(4), ANGLE(90), ANGLE(140));
@@ -74,18 +81,7 @@ int main(void)
 		MoveServo(SERVO_A(5), ANGLE(45), ANGLE(15));
 		_delay_ms(100);
 
-		//MoveServo(SERVO_A(2), ANGLE(65), ANGLE(90));
-		//_delay_ms(100);
-		//MoveServo(SERVO_A(3), ANGLE(-23), ANGLE(90));
-		//_delay_ms(100);
-		//MoveServo(SERVO_A(4), ANGLE(140), ANGLE(90));
-		//_delay_ms(100);
-		//MoveServo(SERVO_A(1), ANGLE(92), ANGLE(90));
-		//_delay_ms(100);
-		//MoveServo(SERVO_A(5), ANGLE(20), ANGLE(45));
-		//_delay_ms(100);
-
-		/*수정하기*/
+		/* 들기 */
 		MoveServo(SERVO_A(4), ANGLE(140), ANGLE(180));
 		_delay_ms(100);
 		MoveServo(SERVO_A(3), ANGLE(-23), ANGLE(30));
@@ -97,6 +93,7 @@ int main(void)
 		MoveServo(SERVO_A(2), ANGLE(65), ANGLE(90));
 		_delay_ms(100);
 
+		/* 놓기 */
 		MoveServo(SERVO_A(1), ANGLE(92), ANGLE(135));
 		_delay_ms(100);
 		MoveServo(SERVO_A(2), ANGLE(90), ANGLE(85));
@@ -109,13 +106,12 @@ int main(void)
 		_delay_ms(100);
 		MoveServo(SERVO_A(5), ANGLE(15), ANGLE(45));
 		_delay_ms(100);
-
 		MoveServo(SERVO_A(2), ANGLE(85), ANGLE(90));
 		_delay_ms(100);
 		MoveServo(SERVO_A(1), ANGLE(135), ANGLE(90));
 		_delay_ms(100);
-
-
+		
+		/* 각도 찾기 */
 		//pca9685_pwm(SERVO_A(1), ANGLE(135));
 		//pca9685_pwm(SERVO_A(2), ANGLE(85));
 		//pca9685_pwm(SERVO_A(3), ANGLE(-25));
