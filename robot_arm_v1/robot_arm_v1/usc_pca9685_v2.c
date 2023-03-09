@@ -73,7 +73,7 @@ int main(void)
 		_delay_ms(100);
 		MoveServo(SERVO_A(5), ANGLE(45), ANGLE(15));
 		_delay_ms(100);
-//
+
 		//MoveServo(SERVO_A(2), ANGLE(65), ANGLE(90));
 		//_delay_ms(100);
 		//MoveServo(SERVO_A(3), ANGLE(-23), ANGLE(90));
@@ -88,7 +88,11 @@ int main(void)
 		/*수정하기*/
 		MoveServo(SERVO_A(4), ANGLE(140), ANGLE(180));
 		_delay_ms(100);
-		MoveServo(SERVO_A(3), ANGLE(-23), ANGLE(90));
+		MoveServo(SERVO_A(3), ANGLE(-23), ANGLE(30));
+		_delay_ms(100);
+		MoveServo(SERVO_A(4), ANGLE(180), ANGLE(90));
+		_delay_ms(100);
+		MoveServo(SERVO_A(3), ANGLE(30), ANGLE(90));
 		_delay_ms(100);
 		MoveServo(SERVO_A(2), ANGLE(65), ANGLE(90));
 		_delay_ms(100);
@@ -97,9 +101,11 @@ int main(void)
 		_delay_ms(100);
 		MoveServo(SERVO_A(2), ANGLE(90), ANGLE(85));
 		_delay_ms(100);
-		MoveServo(SERVO_A(3), ANGLE(90), ANGLE(-25));
+		MoveServo(SERVO_A(3), ANGLE(90), ANGLE(30));
 		_delay_ms(100);
-		MoveServo(SERVO_A(4), ANGLE(180), ANGLE(150));
+		MoveServo(SERVO_A(4), ANGLE(90), ANGLE(150));
+		_delay_ms(100);
+		MoveServo(SERVO_A(3), ANGLE(30), ANGLE(-25));
 		_delay_ms(100);
 		MoveServo(SERVO_A(5), ANGLE(15), ANGLE(45));
 		_delay_ms(100);
