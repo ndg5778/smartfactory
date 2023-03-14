@@ -23,7 +23,7 @@
 //#define switch1 PB2
 //
 //#define SERVO_A(x) (uint8_t)(x - 1)		// SERVO_A(1) = 0, 1, 2, 3, 4
-//#define SERVO_B(x) (uint8_t)(x + 4)		// SERVO_B(1) = 5, 6, 7, 8, 9
+//#define SERVO_B(x) (uint8_t)(x + 7)		// SERVO_B(1) = 5, 6, 7, 8, 9
 //
 //// pulse
 //#define ANGLE(x) (uint16_t)((10 * x) + 600)		// 600 ~ 2400
@@ -61,13 +61,30 @@
 	//while (1) {
 		//LED_PORT |= (1 << LED1);
 		//
-		//MoveRobotArm(1, 0);
+		////MoveRobotArm(1, 0);
+		//
+		////int i;
+		////for (i = 1; i <= 4; i++) {
+			////MoveServo(SERVO_B(i), ANGLE(90), ANGLE(70));
+			////_delay_ms(100);
+			////MoveServo(SERVO_B(i), ANGLE(71), ANGLE(90));
+			////_delay_ms(100);
+		////}
+		//
+		//MoveServo(SERVO_B(3), ANGLE(0), ANGLE(120));
+		//_delay_ms(100);
+		//MoveServo(SERVO_B(3), ANGLE(120), ANGLE(0));
+		//_delay_ms(100);
+		//
+		////MoveServo(SERVO_B(4), ANGLE(90), ANGLE(120));
+		////MoveServo(SERVO_A(4), ANGLE(120), ANGLE(90));
+		////_delay_ms(500);
+		//
+		////MoveServo(SERVO_B(5), ANGLE(45), ANGLE(0));
+		////MoveServo(SERVO_B(5), ANGLE(0), ANGLE(45));
+		////_delay_ms(500);
 //
-		////MoveServo(SERVO_A(4), ANGLE(90), ANGLE(180));
-		////MoveServo(SERVO_A(4), ANGLE(180), ANGLE(90));
-//
-		////MoveServo(SERVO_A(3), ANGLE(90), ANGLE(180));
-		////MoveServo(SERVO_A(3), ANGLE(180), ANGLE(90));
+		////pca9685_pwm(SERVO_B(3), ANGLE(100));
 		//
 		//LED_PORT &= ~(1 << LED1);
 		//
@@ -75,17 +92,20 @@
 	//return 0;
 //}
 //
-//void INIT_SERVO(){
+//void INIT_SERVO() {
 //
 	//pca9685_init(0x00, 50); // start PCA9685 device 0x00 at 50 Hz output
 	//int i;
 //
 	//for (i = 1; i <= 4; i++){
 		//pca9685_pwm(SERVO_A(i), ANGLE(90));
+		//pca9685_pwm(SERVO_B(i), ANGLE(90));
 		//_delay_ms(20);
 	//}
 //
 	//pca9685_pwm(SERVO_A(5), ANGLE(45));
+	//pca9685_pwm(SERVO_B(3), ANGLE(120));
+	//pca9685_pwm(SERVO_B(5), ANGLE(90));
 	//_delay_ms(200);
 //}
 //
