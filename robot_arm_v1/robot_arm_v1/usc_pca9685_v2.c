@@ -18,9 +18,12 @@
 // pulse
 #define ANGLE(x) (uint16_t)((10 * x) + 600)		// 600 ~ 2400
 
-#define servo_max 18
+#define servo_max_A 18
+#define servo_max_Bfst 14
+#define servo_max_B 7
 
-uint16_t move_Aarm_coord[9][servo_max][3] = {
+uint16_t move_Aarm_coord[9][servo_max_A][3] = {
+	
 	{
 		/* 01 */
 		{1, 90, 93}, {4, 90, 140}, {2, 90, 65}, {3, 90, -23}, {5, 45, 20},			
@@ -28,9 +31,10 @@ uint16_t move_Aarm_coord[9][servo_max][3] = {
 		{1, 92, 135}, {3, 30, -25}, {4, 180, 150}, {5, 20, 45},{4, 150, 180}, {2, 85, 90}, {1, 135, 90}
 	},	
 	
+	
 	{
 		/* 02 */
-		{1, 90, 68}, {4, 90, 180}, {2, 90, 60}, {3, 90, -25}, {4, 180, 160}, {5, 45, 23},
+		{1, 90, 68}, {4, 90, 180}, {2, 90, 60}, {3, 90, -25}, {4, 180, 160}, {5, 45, 23}, 
 		{4, 160, 180}, {2, 68, 85},		
 		{1, 68, 135}, {4, 180, 150}, {5, 23, 45}, {4, 150, 180}, {3, -25, 30}, {2, 85, 90}, {1, 135, 90}
 	},
@@ -84,7 +88,22 @@ uint16_t move_Aarm_coord[9][servo_max][3] = {
 		{1, 52, 136}, {4, 179, 150}, {3, 30, -25}, {5, 23, 45}, {4, 150, 180}, {2, 85, 90}, {1, 135, 90}
 	}
 };
-
+uint16_t move_Barm_fst[servo_max_Bfst][3] = {
+	{1, 90, 147}, {4, 90, 180}, {3, 90, -17}, {2, 90, 70}, {4, 180, 120}, {5, 90, 120},
+		{3, -17, -12}, {2, 70, 60}, {4, 120, 130}, {5, 120, 97},
+	{4, 130, 180}, {2, 60, 90}, {3, 6, 30}, {3, -12, 20}
+};
+uint16_t move_Barm_coord[9][servo_max_B][3] = {
+	{/* 01 */{1, 147, 110}, {2, 90, 42}, {3, 20, -10}, {4, 180, 150}, {5, 97, 120}, {2, 42, 90}},
+	{/* 02 */{1, 147, 90}, {2, 90, 50}, {3, 20, -17}, {4, 180, 130}, {5, 97, 120}, {2, 50, 90}},
+	{/* 03 */{1, 147, 63}, {2, 90, 42}, {3, 20, -12}, {4, 180, 140}, {5, 97, 120}, {2, 42, 90}},
+	{/* 04 */{1, 147, 110}, {2, 90, 35}, {3, 20, 3}, {4, 180, 130}, {5, 97, 120}, {2, 35, 90}},
+	{/* 05 */{1, 147, 90}, {2, 90, 45}, {3, 20, -6}, {4, 180, 130}, {5, 97, 120}, {2, 45, 90}},
+	//{/* 06 */{1, 147, 65}, {2, 90, 32}, {3, 20, 3}, {4, 180, 130}, {5, 97, 120}, {2, 32, 90}},
+	//{/* 07 */{1, 147, 105}, {2, 90, 30}, {3, 20, 15}, {4, 180, 130}, {5, 97, 120}, {2, 30, 90}},
+	//{/* 08 */{1, 147, 90}, {2, 90, 30}, {3, 20, 15}, {4, 180, 130}, {5, 97, 120}, {2, 30, 90}},
+	//{/* 09 */{1, 147, 67}, {2, 90, 25}, {3, 20, 20}, {4, 180, 130}, {5, 97, 120}, {2, 30, 90}}
+};
 
 // 서보모터 초기화
 void INIT_SERVO();
@@ -105,8 +124,8 @@ int main(void)
 	while (1) {
 		LED_PORT |= (1 << LED1);
 		
-		INIT_SERVO();
-		_delay_ms(1000);
+		//INIT_SERVO();
+		//_delay_ms(1000);
 		
 		//int i;
 		//for ( i = 0; i < 9; i++ ) {
@@ -117,58 +136,72 @@ int main(void)
 		//}
 		
 		/* 함수 이용하기 */
-		//INIT_SERVO();
-		//_delay_ms(1000);
-		//MoveRobotArm(1, 7);
-		//_delay_ms(50000000000000);
+		INIT_SERVO();
+		_delay_ms(2000);
+		MoveRobotArm(2, 4);
+		_delay_ms(50000000000000);
 		
-		
+		 
 		/* 집기 */
-		MoveServo(SERVO_B(1), ANGLE(90), ANGLE(150));
-		_delay_ms(100);
-		MoveServo(SERVO_B(4), ANGLE(90), ANGLE(180));
-		_delay_ms(100);
-		MoveServo(SERVO_B(3), ANGLE(90), ANGLE(-12));
-		_delay_ms(100);
-		MoveServo(SERVO_B(2), ANGLE(90), ANGLE(59));
-		_delay_ms(100);
-		MoveServo(SERVO_B(4), ANGLE(180), ANGLE(130));
-		_delay_ms(100);
-		MoveServo(SERVO_B(5), ANGLE(90), ANGLE(55));
-		_delay_ms(100);
+		//MoveServo(SERVO_B(1), ANGLE(90), ANGLE(147));
+		//_delay_ms(100);
+		//MoveServo(SERVO_B(4), ANGLE(90), ANGLE(180));
+		//_delay_ms(100);
+		//MoveServo(SERVO_B(3), ANGLE(90), ANGLE(-17));
+		//_delay_ms(100);
+		//MoveServo(SERVO_B(2), ANGLE(90), ANGLE(70));
+		//_delay_ms(100);
+		//MoveServo(SERVO_B(4), ANGLE(180), ANGLE(120));
+		//_delay_ms(100);
+		//MoveServo(SERVO_B(5), ANGLE(90), ANGLE(120));
+		//_delay_ms(100);
+		//
+		//MoveServo(SERVO_B(3), ANGLE(-17), ANGLE(-12));
+		//_delay_ms(100);
+		//MoveServo(SERVO_B(2), ANGLE(70), ANGLE(60));
+		//_delay_ms(100);
+		//MoveServo(SERVO_B(4), ANGLE(120), ANGLE(130));
+		//_delay_ms(100);
+		//MoveServo(SERVO_B(5), ANGLE(120), ANGLE(97));
+		//_delay_ms(100);
 
 		/* 들기 */
-		MoveServo(SERVO_B(4), ANGLE(140), ANGLE(180));
-		_delay_ms(100);
-		MoveServo(SERVO_B(2), ANGLE(46), ANGLE(84));
-		_delay_ms(100);
-		MoveServo(SERVO_B(3), ANGLE(6), ANGLE(30));
-		_delay_ms(100);
+		//MoveServo(SERVO_B(4), ANGLE(130), ANGLE(180));
+		//_delay_ms(100);
+		//MoveServo(SERVO_B(2), ANGLE(60), ANGLE(90));
+		//_delay_ms(100);
+		//MoveServo(SERVO_B(3), ANGLE(6), ANGLE(30));
+		//_delay_ms(100);
 
 
 		/* 놓기 */
-		MoveServo(SERVO_B(1), ANGLE(150), ANGLE(90));
-		_delay_ms(1000);
-		MoveServo(SERVO_B(4), ANGLE(180), ANGLE(150));
-		_delay_ms(100);
-		MoveServo(SERVO_B(3), ANGLE(30), ANGLE(-25));
-		_delay_ms(100);
-		MoveServo(SERVO_B(5), ANGLE(55), ANGLE(90));
-		_delay_ms(100);
-		//MoveServo(SERVO_B(2), ANGLE(85), ANGLE(90));
+		//MoveServo(SERVO_B(3), ANGLE(-12), ANGLE(20));
 		//_delay_ms(100);
-		//MoveServo(SERVO_B(1), ANGLE(135), ANGLE(90));
+		//MoveServo(SERVO_B(1), ANGLE(147), ANGLE(110));
+		//_delay_ms(1000);
+		//MoveServo(SERVO_B(2), ANGLE(90), ANGLE(42));
+		//_delay_ms(100);
+		//MoveServo(SERVO_B(3), ANGLE(20), ANGLE(-10));
+		//_delay_ms(100);
+		//MoveServo(SERVO_B(4), ANGLE(180), ANGLE(150));
+		//_delay_ms(100);
+		//MoveServo(SERVO_B(5), ANGLE(97), ANGLE(120));
+		//_delay_ms(100);
+		//
+		//MoveServo(SERVO_B(2), ANGLE(42), ANGLE(90));
 		//_delay_ms(100);
 		
-		_delay_ms(50000000000000);		
+		
+		//_delay_ms(50000000000000);
 		// {1, 90, 70}, {4, 90, 180}, {2, 90, 46}, {3, 90, 6}, {4, 180, 140}, {5, 45, 23},
+		// {{3, -12, 20}, {1, 147, 110}, {2, 90, 42}, {3, 20, -10}, {4, 180, 150}, {5, 97, 120}, {2, 42, 90}},	
 		
 		/* 각도 찾기 */
-		//pca9685_pwm(SERVO_B(1), ANGLE(150));
-		//pca9685_pwm(SERVO_B(2), ANGLE(57));
-		//pca9685_pwm(SERVO_B(3), ANGLE(-10));
+		//pca9685_pwm(SERVO_B(1), ANGLE(67));
+		//pca9685_pwm(SERVO_B(2), ANGLE(25));
+		//pca9685_pwm(SERVO_B(3), ANGLE(20));
 		//pca9685_pwm(SERVO_B(4), ANGLE(130));
-		//pca9685_pwm(SERVO_B(5), ANGLE(90));
+		//pca9685_pwm(SERVO_B(5), ANGLE(120));
 		
 		LED_PORT &= ~(1 << LED1);
 		
@@ -189,7 +222,7 @@ void INIT_SERVO(){
 
 	pca9685_pwm(SERVO_A(5), ANGLE(45));
 	pca9685_pwm(SERVO_B(3), ANGLE(120));
-	pca9685_pwm(SERVO_B(5), ANGLE(90));
+	pca9685_pwm(SERVO_B(5), ANGLE(120));
 	_delay_ms(200);
 
 }
@@ -239,15 +272,18 @@ void MoveRobotArm(uint8_t servo, uint8_t count) {
 	switch (servo){
 		case 1:
 		PORTB |= (1 << LED2);
-		for(i = 0; i < servo_max; i++){
+		for(i = 0; i < servo_max_A; i++){
 			MoveServo(SERVO_A(move_Aarm_coord[count][i][0]), ANGLE(move_Aarm_coord[count][i][1]), ANGLE(move_Aarm_coord[count][i][2]));
 		}
 		break;
-		//case 2:
-		//for(i = 0; i < servo_max; i++){
-		//MoveServo(SERVO_B(move_Barm_coord[count][i][0]), ANGLE(move_Barm_coord[count][i][1]), ANGLE(move_Barm_coord[count][i][2]));
-		//break;
-		//}
+		case 2:
+		for(i = 0; i < servo_max_Bfst; i++){
+			MoveServo(SERVO_B(move_Barm_fst[i][0]), ANGLE(move_Barm_fst[i][1]), ANGLE(move_Barm_fst[i][2]));
+		}
+		for(i = 0; i < servo_max_B; i++){
+			MoveServo(SERVO_B(move_Barm_coord[count][i][0]), ANGLE(move_Barm_coord[count][i][1]), ANGLE(move_Barm_coord[count][i][2]));
+		}
+		break;
 	}
 	
 }
