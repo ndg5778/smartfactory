@@ -137,60 +137,65 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="atmega_led_test.c">
+    <Compile Include="ServoDriver\i2c.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="i2c.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="i2c.h">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="L298N.c">
-      <SubType>compile</SubType>
-    </Compile>
-    <Compile Include="led_test.c">
+    <Compile Include="ServoDriver\i2c.h">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="pca9685.c">
+    <Compile Include="ServoDriver\pca9685.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="pca9685.h">
+    <Compile Include="ServoDriver\pca9685.h">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="switch.c">
+    <Compile Include="test\atmega_led_test.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="test.c">
+    <Compile Include="test\L298N.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="UART.c">
+    <Compile Include="test\led_test.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="UART.h">
+    <Compile Include="test\switch.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uart_main.c">
+    <Compile Include="test\test.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uart_test_led.c">
+    <Compile Include="test\uart_main.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uart_test_v1.c">
+    <Compile Include="test\uart_test_led.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="uart_test_v2.c">
+    <Compile Include="test\uart_test_v1.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="usc_pca9685_v2.c">
+    <Compile Include="test\uart_test_v2.c">
       <SubType>compile</SubType>
     </Compile>
-    <Compile Include="use_pca9685.c">
+    <Compile Include="test\usc_pca9685_v2.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="test\use_pca9685.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="UART\UART.c">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="UART\UART.h">
+      <SubType>compile</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="test" />
+    <Folder Include="UART" />
+    <Folder Include="ServoDriver" />
   </ItemGroup>
   <Import Project="$(AVRSTUDIO_EXE_PATH)\\Vs\\Compiler.targets" />
 </Project>

@@ -90,7 +90,7 @@ while True:
                     print("stop conveyor")
                     pass_infrared = 0
 
-        elif (data == "====stepping motor===="):
+        elif (data == "stm"):
             print(f"Received data: {data}")
             stop_receive = 1
             while (stop_receive != 0):
