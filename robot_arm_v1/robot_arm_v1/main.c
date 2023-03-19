@@ -63,11 +63,11 @@ void SecondRobotArm();
 
 /*  */
 // 시작할 수 있나?
-int WhichCanMove();
+int WhichCanMove(void);
 // 적외선센서 값 받기
-int ReceiveInfrared();
+int ReceiveInfrared(void);
 // 컨베이어벨트 움직이고 멈추기
-int ConveyorBeltStop();
+int ConveyorBeltStop(void);
 
 
 uint16_t move_Aarm_coord[9][servo_max_A][3] = {
@@ -255,7 +255,6 @@ int main(void)
 		// LED OFF
 		PORTB &= ~(1 << LED1);
 	}
-	
 
 	return 0;
 }
@@ -289,9 +288,7 @@ void INIT_SERVO(){
 	_delay_ms(200);
 }
 
-
-
-int WhichCanMove() {
+int WhichCanMove(void) {
 	
 	int pass = 0;
 	//char temp[20];
@@ -307,7 +304,7 @@ int WhichCanMove() {
 			strcpy(buffer_data, buffer);
 			
 			// 0 ~ 8의 값이 들어오면
-			if ((strcmp(buffer_data, "0") == 0) || (strcmp(buffer_data, "1") == 0) || (strcmp(buffer_data, "2") == 0) || (strcmp(buffer_data, "3") == 0) || (strcmp(buffer_data, "4") == 0) || (strcmp(buffer_data, "5") == 0) || (strcmp(buffer_data, "6") == 0) || (strcmp(buffer_data, "7") == 0) || (strcmp(buffer_data, "8") == 0)){
+			if ((strcmp(buffer_data, "0") == 0) || (strcmp(buffer_data, "1") == 0) || (strcmp(buffer_data, "2") == 0) || (strcmp(buffer_data, "3") == 0) || (strcmp(buffer_data, "4") == 0) || (strcmp(buffer_data, "5") == 0) || (strcmp(buffer_data, "6") == 0) || (strcmp(buffer_data, "7") == 0) || (strcmp(buffer_data, "8") == 0)) {
 				UART_printString("pass");
 				UART_printString(buffer_data);
 				UART_printString("\n");
@@ -332,6 +329,7 @@ int WhichCanMove() {
 			// 다른 값이 들어온다면...
 			else {
 				UART_printString("not a 0 to 9. : ");
+			}
 		}
 	}
 	
@@ -342,7 +340,6 @@ int WhichCanMove() {
 int ReceiveInfrared (void) {
 	
 	uint8_t pass = 1;
-	//char temp[20];
 	
 	while (pass != 0){
 		
@@ -394,11 +391,11 @@ int ConveyorBeltStop (void) {
 	return 0;
 }
 
-void SecondRobotArm() {
+void SecondRobotArm(void) {
 	
 	uint8_t pass = 1;
 	
-	while (pass != 0){
+	while (pass != 0) {
 		
 		uart_RasToAt();
 		
@@ -425,12 +422,12 @@ void SecondRobotArm() {
 				pass = 0;
 				PORTB &= ~(1 << LED2);
 			}
-
-}
+		}
+			
 	}
 }
 
-void MoveServo(uint8_t servo, uint16_t start_angle, uint16_t end_angle) {
+void MoveServo (uint8_t servo, uint16_t start_angle, uint16_t end_angle) {
 	int angle;
 
 	if (start_angle <= end_angle) {
@@ -449,7 +446,7 @@ void MoveServo(uint8_t servo, uint16_t start_angle, uint16_t end_angle) {
 	_delay_ms(100);
 }
 
-void MoveRobotArm(uint8_t servo, uint8_t count){
+void MoveRobotArm(uint8_t servo, uint8_t count) {
 	
 	int i;
 	
@@ -472,8 +469,8 @@ void MoveRobotArm(uint8_t servo, uint8_t count){
 	
 }
 
-void INIT_STEPPER()
-{
+void INIT_STEPPER() {
+	
 	// 타이머/카운터 2번을 고속 PWM 모드로 설정
 	TCCR2A |= (1 << WGM21) | (1 << WGM20);
 	TCCR2A |= (1 << COM2A1);		// 비반전 모드
@@ -488,8 +485,8 @@ void INIT_STEPPER()
 	LED_DDR |= (1 << LED1) | (1 << LED2);	// led 상태등 표시 PB0
 }
 
-void loop_stepper()
-{
+void loop_stepper() {
+	
 	STEPPING_A &= ~((1 << STEPPING_A_IN1) | (1 << STEPPING_A_IN4));		// low
 	STEPPING_A |= (1 << STEPPING_A_IN2) | (1 << STEPPING_A_IN3);		// high
 	STEPPING_B &= ~((1 << STEPPING_B_IN1) | (1 << STEPPING_B_IN4));
