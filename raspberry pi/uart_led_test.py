@@ -11,7 +11,7 @@ while (num != 0):
 
     num = int(input("1:ON 2:OFF 0:EXIT : "))
 
-    if (num == 1):
+    if (num == 1): 
         ser.flush()
         ser.write(b'h')
         print("h")
