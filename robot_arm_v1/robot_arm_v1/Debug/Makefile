@@ -54,7 +54,8 @@ C_SRCS +=  \
 ../test/uart_test_v2.c \
 ../test/usc_pca9685_v2.c \
 ../test/use_pca9685.c \
-../UART/UART.c
+../UART/UART.c \
+../UART/use_UART.c
 
 
 PREPROCESSING_SRCS += 
@@ -78,7 +79,8 @@ test/uart_test_v1.o \
 test/uart_test_v2.o \
 test/usc_pca9685_v2.o \
 test/use_pca9685.o \
-UART/UART.o
+UART/UART.o \
+UART/use_UART.o
 
 OBJS_AS_ARGS +=  \
 ServoDriver/i2c.o \
@@ -95,7 +97,8 @@ test/uart_test_v1.o \
 test/uart_test_v2.o \
 test/usc_pca9685_v2.o \
 test/use_pca9685.o \
-UART/UART.o
+UART/UART.o \
+UART/use_UART.o
 
 C_DEPS +=  \
 ServoDriver/i2c.d \
@@ -112,7 +115,8 @@ test/uart_test_v1.d \
 test/uart_test_v2.d \
 test/usc_pca9685_v2.d \
 test/use_pca9685.d \
-UART/UART.d
+UART/UART.d \
+UART/use_UART.d
 
 C_DEPS_AS_ARGS +=  \
 ServoDriver/i2c.d \
@@ -129,7 +133,8 @@ test/uart_test_v1.d \
 test/uart_test_v2.d \
 test/usc_pca9685_v2.d \
 test/use_pca9685.d \
-UART/UART.d
+UART/UART.d \
+UART/use_UART.d
 
 OUTPUT_FILE_PATH +=robot_arm_v1.elf
 
@@ -244,6 +249,13 @@ test/use_pca9685.o: ../test/use_pca9685.c
 	
 
 UART/UART.o: ../UART/UART.c
+	@echo Building file: $<
+	@echo Invoking: AVR/GNU C Compiler : 5.4.0
+	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 
+	@echo Finished building: $<
+	
+
+UART/use_UART.o: ../UART/use_UART.c
 	@echo Building file: $<
 	@echo Invoking: AVR/GNU C Compiler : 5.4.0
 	$(QUOTE)C:\Program Files (x86)\Atmel\Studio\7.0\toolchain\avr8\avr8-gnu-toolchain\bin\avr-gcc.exe$(QUOTE)  -x c -funsigned-char -funsigned-bitfields -DDEBUG  -I"C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\include"  -Og -ffunction-sections -fdata-sections -fpack-struct -fshort-enums -g2 -Wall -mmcu=atmega328p -B "C:\Program Files (x86)\Atmel\Studio\7.0\Packs\atmel\ATmega_DFP\1.7.374\gcc\dev\atmega328p" -c -std=gnu99 -MD -MP -MF "$(@:%.o=%.d)" -MT"$(@:%.o=%.d)" -MT"$(@:%.o=%.o)"   -o "$@" "$<" 

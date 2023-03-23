@@ -1,7 +1,7 @@
 ﻿//#define F_CPU 16000000L
 //#include <avr/io.h> // include the AVR IO library
 //#include <util/delay.h> // include the delay library
-//#include "pca9685.h" // include the PCA9685 
+//#include "../ServoDriver/pca9685.h" // include the PCA9685 
 //
 //#define servo1 (uint8_t)0
 //#define servo2 (uint8_t)1
@@ -48,7 +48,7 @@
 	//LED_DDR |= (1 << LED1) | (1 << LED2);
 	////LED_PORT |= (1 << LED2);
 	//
-	//pca9685_init(0x00, 50); // start PCA9685 device 0x00 at 50 Hz output
+	////pca9685_init(0x00, 50); // start PCA9685 device 0x00 at 50 Hz output
 //
 	////LED_PORT |= (1 << LED1);
 	//_delay_ms(5);
@@ -60,28 +60,56 @@
 //
 	//while (1) {
 		//LED_PORT |= (1 << LED1);
+		////INIT_SERVO();
 		//
 		////MoveRobotArm(1, 0);
 		//
-		////int i;
-		////for (i = 1; i <= 4; i++) {
-			////MoveServo(SERVO_B(i), ANGLE(90), ANGLE(70));
+		////MoveServo(SERVO_A(1), ANGLE(90), ANGLE(70));
+		////_delay_ms(100);
+		////MoveServo(SERVO_A(1), ANGLE(70), ANGLE(90));
+		////_delay_ms(100);
+		//
+		//int i;
+		//for (i = 1; i <= 4; i++) {
+			//MoveServo(SERVO_A(i), ANGLE(90), ANGLE(70));
+			//_delay_ms(100);
+			//MoveServo(SERVO_A(i), ANGLE(71), ANGLE(90));
+			//_delay_ms(100);
+		//}
+		//MoveServo(SERVO_A(5), ANGLE(45), ANGLE(0));
+		//_delay_ms(100);
+		//MoveServo(SERVO_A(5), ANGLE(0), ANGLE(45));
+		//_delay_ms(100);
+		//
+		//_delay_ms(5000);
+		//
+		//for (i = 1; i <= 5; i++) {
+			//MoveServo(SERVO_B(i), ANGLE(90), ANGLE(70));
+			//_delay_ms(100);
+			//MoveServo(SERVO_B(i), ANGLE(71), ANGLE(90));
+			//_delay_ms(100);
+		//}
+		//
+		//_delay_ms(5000);
+		//
+		////for (i = 2; i <= 3; i++) {
+			////MoveServo(SERVO_B(i), ANGLE(0), ANGLE(180));
 			////_delay_ms(100);
-			////MoveServo(SERVO_B(i), ANGLE(71), ANGLE(90));
+			////MoveServo(SERVO_B(i), ANGLE(180), ANGLE(0));
 			////_delay_ms(100);
 		////}
 		//
-		//MoveServo(SERVO_B(3), ANGLE(0), ANGLE(120));
-		//_delay_ms(100);
-		//MoveServo(SERVO_B(3), ANGLE(120), ANGLE(0));
-		//_delay_ms(100);
+		////MoveServo(SERVO_B(1), ANGLE(120), ANGLE(75));
+		////_delay_ms(100);
+		////MoveServo(SERVO_B(1), ANGLE(75), ANGLE(120));
+		////_delay_ms(100);
 		//
-		////MoveServo(SERVO_B(4), ANGLE(90), ANGLE(120));
-		////MoveServo(SERVO_A(4), ANGLE(120), ANGLE(90));
+		////MoveServo(SERVO_B(1), ANGLE(90), ANGLE(120));
+		////MoveServo(SERVO_B(1), ANGLE(120), ANGLE(90));
 		////_delay_ms(500);
 		//
-		////MoveServo(SERVO_B(5), ANGLE(45), ANGLE(0));
-		////MoveServo(SERVO_B(5), ANGLE(0), ANGLE(45));
+		////MoveServo(SERVO_A(5), ANGLE(45), ANGLE(0));
+		////MoveServo(SERVO_A(5), ANGLE(0), ANGLE(45));
 		////_delay_ms(500);
 //
 		////pca9685_pwm(SERVO_B(3), ANGLE(100));
@@ -104,7 +132,7 @@
 	//}
 //
 	//pca9685_pwm(SERVO_A(5), ANGLE(45));
-	//pca9685_pwm(SERVO_B(3), ANGLE(120));
+	//pca9685_pwm(SERVO_B(3), ANGLE(130));
 	//pca9685_pwm(SERVO_B(5), ANGLE(90));
 	//_delay_ms(200);
 //}
