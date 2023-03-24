@@ -210,8 +210,6 @@
 				//
 				///* PART2. 첫 번째 로봇팔 움직임이 종료된 후 적외선 센서 값 받아오기 */
 				//
-				//// 적외선센서 값 받아오기
-				////UART_printString("====First Infrared====\n");
 				//int inf_value;
 				//inf_value = ReceiveInfrared();
 				//
@@ -290,22 +288,22 @@
 	//
 	//int pass = 0;
 	//
-	//UART_printString("fst\n");
-	//
 	//while (pass == 0){
+		//
+		//uart_RasToAt();
 		//
 		//if(process_data == 1){
 			//strcpy(buffer_data, buffer);
 			//
-			//if (strcmp(buffer_data, "0") == 0) {
-				//UART_printString("fst");
+			//if (strcmp(buffer_data, "sta") == 0) {
+				//UART_printString("fst\n");
 			//}
 			//
 			//// 0 ~ 8의 값이 들어오면
-			//if ((strcmp(buffer_data, "0") == 0) || (strcmp(buffer_data, "1") == 0) || (strcmp(buffer_data, "2") == 0) || (strcmp(buffer_data, "3") == 0) || (strcmp(buffer_data, "4") == 0) || (strcmp(buffer_data, "5") == 0) || (strcmp(buffer_data, "6") == 0) || (strcmp(buffer_data, "7") == 0) || (strcmp(buffer_data, "8") == 0)) {
-				//UART_printString("pass");
+			//else if ((strcmp(buffer_data, "0") == 0) || (strcmp(buffer_data, "1") == 0) || (strcmp(buffer_data, "2") == 0) || (strcmp(buffer_data, "3") == 0) || (strcmp(buffer_data, "4") == 0) || (strcmp(buffer_data, "5") == 0) || (strcmp(buffer_data, "6") == 0) || (strcmp(buffer_data, "7") == 0) || (strcmp(buffer_data, "8") == 0)) {
+				////UART_printString("pass");
 				//UART_printString(buffer_data);
-				//UART_printString("\n");
+				////UART_printString("\n");
 				//pass = 1;
 				//
 				//if ((strcmp(buffer_data, "0") == 0)) return 0;
@@ -320,13 +318,15 @@
 			//}
 			//// 9의 값일 들어오면 (배열이 꽉 찼음)
 			//else if (strcmp(buffer_data, "9") == 0) {
-				//UART_printString("end");
+				//("end");
 				//PORTB &= ~(1 << LED1);
 				//return 9;
 			//}
 			//// 다른 값이 들어온다면...
 			//else {
 				//UART_printString("not a 0 to 9. : ");
+				//UART_printString(buffer_data);
+				//UART_printString("\n");
 			//}
 		//}
 	//}
@@ -345,7 +345,7 @@
 		//
 		//if(process_data == 1){
 			//strcpy(buffer_data, buffer);
-			//
+//
 			//// go 값이 들어오면
 			//if (strcmp(buffer_data, "go") == 0) {
 				////UART_printString("conveyor belt move\n");
@@ -359,10 +359,14 @@
 				////strcpy(temp, "conveyor_stp");
 				//return 0;
 			//}
+			//
+			//else if (strcmp(buffer_data, "sta") == 0) {
+				//UART_printString("stm\n");
+			//}
 			//// 다른 값이 들어온다면...
 			//else {
-				//UART_printString("test : ");
-				////UART_transmit(buffer_data);
+				//UART_printString("stepping test : ");
+				//UART_transmit(buffer_data);
 				//UART_printString("\n");
 				//return 2;
 			//}
@@ -407,14 +411,14 @@
 				////PORTB |= ~(1 << LED2);
 			//}
 			//
-			//else if (strcmp(buffer_data, "blue") == 0) {
+			//else if (strcmp(buffer_data, "blu") == 0) {
 				//MoveRobotArm(2, ((3 * bluebox) + 1)); // 2, 5, 8
 				//bluebox++;
 				//pass = 0;
 				//PORTB &= ~(1 << LED2);
 			//}
 			//
-			//else if (strcmp(buffer_data, "green") == 0) {
+			//else if (strcmp(buffer_data, "grn") == 0) {
 				//MoveRobotArm(2, ((3 * greenbox) + 2)); // 3, 6, 9
 				//greenbox++;
 				//pass = 0;
