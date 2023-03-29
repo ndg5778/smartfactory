@@ -28,6 +28,7 @@ Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
 > > 1. pytorch 다운로드  
 > > 2. yolov5 다운로드  
 > > 3. pymysql 다운로드  
+> > >  ```
 > > > 	- database = blog  
 > > > 	- table = project로 생성  
 > > > 		create table project(  
@@ -36,6 +37,7 @@ Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
 > > > 		number int(11) NOT NULL,  
 > > > 		number1 int(11) NOT NULL,  
 > > > 		PRIMARY KEY(id));  
+> > >  ```  
 > >		
 > > 4. Raspi Searial 연결 상태여야 함  
 > > 	port = '/dev/ttyAMA0'   # Raspi Searial port  
