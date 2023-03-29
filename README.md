@@ -29,14 +29,14 @@ Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
 > > 2. yolov5 다운로드  
 > > 3. pymysql 다운로드  
 > > ```  
-> > 	- database = blog  
-> > 	- table = project로 생성  
-> > 		create table project(  
-> > 		id int(11) NOT NULL AUTO_INCREMENT,  
-> > 		name varchar(40) NOT NULL,  
-> > 		number int(11) NOT NULL,  
-> > 		number1 int(11) NOT NULL,  
-> > 		PRIMARY KEY(id));
+> > - database = blog  
+> > - table = project로 생성  
+> > 	create table project(  
+> > 	id int(11) NOT NULL AUTO_INCREMENT,  
+> > 	name varchar(40) NOT NULL,  
+> > 	number int(11) NOT NULL,  
+> > 	number1 int(11) NOT NULL,  
+> > 	PRIMARY KEY(id));
 > >  ```  
 > >		
 > > 4. Raspi Searial 연결 상태여야 함  
@@ -45,4 +45,6 @@ Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
 > >   
 > > 5. STK500을 사용하여 Atmega328P와 연결하여 Atmel studio사용  
 > > 6. 명령어를 입력하여 실행  
+> > ```
 > >     python3 project_detect.py --weights project_best.pt --source 0 --conf 0.7
+> > ```
