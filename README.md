@@ -28,7 +28,7 @@ Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
 > > 1. pytorch 다운로드  
 > > 2. yolov5 다운로드  
 > > 3. pymysql 다운로드  
-
+> > 
     - database = blog  
     - table = project로 생성  
     	create table project(  
