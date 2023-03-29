@@ -323,6 +323,7 @@
 		//case 1:
 		//PORTB |= (1 << LED2);
 		//for(i = 0; i < servo_max_A; i++){
+			
 			//MoveServo(SERVO_A(move_Aarm_coord[count][i][0]), ANGLE(move_Aarm_coord[count][i][1]), ANGLE(move_Aarm_coord[count][i][2]));
 		//}
 		//break;

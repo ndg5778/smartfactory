@@ -301,9 +301,7 @@ int WhichCanMove(void) {
 			
 			// 0 ~ 8의 값이 들어오면
 			else if ((strcmp(buffer_data, "0") == 0) || (strcmp(buffer_data, "1") == 0) || (strcmp(buffer_data, "2") == 0) || (strcmp(buffer_data, "3") == 0) || (strcmp(buffer_data, "4") == 0) || (strcmp(buffer_data, "5") == 0) || (strcmp(buffer_data, "6") == 0) || (strcmp(buffer_data, "7") == 0) || (strcmp(buffer_data, "8") == 0)) {
-				//UART_printString("pass");
 				UART_printString(buffer_data);
-				//UART_printString("\n");
 				pass = 1;
 				
 				if ((strcmp(buffer_data, "0") == 0)) return 0;
