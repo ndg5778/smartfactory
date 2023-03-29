@@ -21,22 +21,23 @@ Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
 
 ## 프로젝트 실행
 > ATmega328p (Atmel studio7) : main.c  
-> Raspberry pi (ubuntu) : project_detect.py
-> 실행 방법
-> > 1, pytorch 다운로드
-> > 2, yolov5 다운로드
-> > 3, pymysql 다운로드
-> > > 	- database = blog
-> > > 	- table = project로 생성
-> > > 		create table project(
-> > > 		id int(11) NOT NULL AUTO_INCREMENT,
-> > > 		name varchar(40) NOT NULL,
-> > > 		number int(11) NOT NULL,
-> > > 		number1 int(11) NOT NULL,
-> > > 		PRIMARY KEY(id));
+
+> Raspberry pi (ubuntu) : project_detect.py  
+> 실행 방법  
+> > 1, pytorch 다운로드  
+> > 2, yolov5 다운로드  
+> > 3, pymysql 다운로드  
+> > > 	- database = blog  
+> > > 	- table = project로 생성  
+> > > 		create table project(  
+> > > 		id int(11) NOT NULL AUTO_INCREMENT,  
+> > > 		name varchar(40) NOT NULL,  
+> > > 		number int(11) NOT NULL,  
+> > > 		number1 int(11) NOT NULL,  
+> > > 		PRIMARY KEY(id));  
 > >		
-> > 4, Raspi Searial 연결 상태여야 함
-> > 	port = '/dev/ttyAMA0'   # Raspi Searial port
-> > 	baudrate = 9600         # 보드 레이트 (통신 속도)
-> > 
-> > 5, STK500을 사용하여 Atmega328P와 연결하여 Atmel studio사용
+> > 4, Raspi Searial 연결 상태여야 함  
+> > 	port = '/dev/ttyAMA0'   # Raspi Searial port  
+> > 	baudrate = 9600         # 보드 레이트 (통신 속도)  
+> >   
+> > 5, STK500을 사용하여 Atmega328P와 연결하여 Atmel studio사용  
