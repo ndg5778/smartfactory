@@ -28,8 +28,8 @@ Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
 > > 1. pytorch 다운로드  
 > > 2. yolov5 다운로드  
 > > 3. pymysql 다운로드  
+> > ```  
 > > 	- database = blog  
-> >  ```
 > > 	- table = project로 생성  
 > > 		create table project(  
 > > 		id int(11) NOT NULL AUTO_INCREMENT,  
@@ -45,4 +45,4 @@ Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
 > >   
 > > 5. STK500을 사용하여 Atmega328P와 연결하여 Atmel studio사용  
 > > 6. 명령어를 입력하여 실행  
-> > > python3 project_detect.py --weights project_best.pt --source 0 --conf 0.7
+> >     python3 project_detect.py --weights project_best.pt --source 0 --conf 0.7
