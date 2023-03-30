@@ -1,7 +1,6 @@
 # YOLOv5 🚀 by Ultralytics, GPL-3.0 license
 """
 Run YOLOv5 detection inference on images, videos, directories, globs, YouTube, webcam, streams, etc.
-
 Usage - sources:
     $ python detect.py --weights yolov5s.pt --source 0                               # webcam
                                                      img.jpg                         # image
@@ -13,7 +12,6 @@ Usage - sources:
                                                      'path/*.jpg'                    # glob
                                                      'https://youtu.be/Zgi9g1ksQHc'  # YouTube
                                                      'rtsp://example.com/media.mp4'  # RTSP, RTMP, HTTP stream
-
 Usage - formats:
     $ python detect.py --weights yolov5s.pt                 # PyTorch
                                  yolov5s.torchscript        # TorchScript
@@ -34,13 +32,6 @@ import platform
 import sys
 from pathlib import Path
 
-import RPi.GPIO as GPIO          # Raspi GPIO선 사용 코드
-import time                      # time.sleep을 사용가능하게 함
-import numpy
-
-import serial
-import pymysql
-
 import torch
 
 FILE = Path(__file__).resolve()
@@ -56,6 +47,9 @@ from utils.general import (LOGGER, Profile, check_file, check_img_size, check_im
 from utils.plots import Annotator, colors, save_one_box
 from utils.torch_utils import select_device, smart_inference_mode
 
+import RPi.GPIO as GPIO          # Raspi GPIO선 사용 코드
+import time                      # time.sleep을 사용가능하게 함
+
 infrared1 = 20                   # 적외선1 out선을 GPIO 20번에 연결
 infrared2 = 21                   # 적외선2 out선을 GPIO 21번에 연결
 
@@ -63,10 +57,8 @@ GPIO.setmode(GPIO.BCM)           # setmode를 BCM으로 설정
 GPIO.setup(infrared1, GPIO.IN)   # 적외선 장애물 감지 센서1 설정
 GPIO.setup(infrared2, GPIO.IN)   # 적외선 장애물 감지 센서2 설정
 
-py_serial = serial.Serial(
-                port='/dev/ttyAMA0', # Raspqi port
-                baudrate=9600,  # 보드 레이트 (통신 속도)
-            )
+import serial
+import pymysql
 
 @smart_inference_mode()
 def run(
@@ -228,100 +220,43 @@ def run(
         state1 = GPIO.input(infrared1)# 적외선 센서1 값을 state1로 설정
         state2 = GPIO.input(infrared2)# 적외선 센서2 값을 state2로 설정 
 
-        first_box_count = 0
-        time_count = 20
-        pass_while = 1
+        while state1 == 0 and state2 == 1:
+            py_serial = serial.Serial(
+                port='/dev/ttyAMA0', # Raspqi port
+                baudrate=9600,  # 보드 레이트 (통신 속도)
+            )
 
-        # 적외선센서 모두 인식이 안된 상태일 때 (컨베이어 벨트에 아무것도 없음)
-        while state1 == 1 and state2 == 1:
+            commend = '3'
+            py_serial.write(commend.encode())
             state1 = GPIO.input(infrared1)
             state2 = GPIO.input(infrared2)
-            for i in range(5):
-                py_serial.write('sta$'.encode())
-                print('start')
-                time.sleep(1)
-            data = py_serial.readline().decode().strip()
-            print(f'data : {data}')
-
-            if(data == "fst"):
-                print('welcome')
-                pass_while = 1
-                for i in range(10):
-                    py_serial.write(f'{first_box_count}$'.encode())
-                    print(first_box_count)
-                    time.sleep(0.5)
-                # time.sleep(20)
-                
-                while(pass_while == 1):
-                    state1 = GPIO.input(infrared1)
-                    
-                    # 첫 번째 적외선센서가 20초동안 인식이 안 되면 (컨베이어 벨트에 상자가 없으면) 로봇팔 재가동
-                    # 첫 번째 적외선센서가 인식되면 스테핑모터 돌리기
-                    if(state1 == 1):
-                        time_count -= 1
-                        print(time_count)
-                        time.sleep(1)
-
-                    elif(state1 == 0):
-                        for i in range(50):
-                            py_serial.write(b'go$')
-                            print(f'go{i}')
-                            time.sleep(0.05)
-                        time_count = 20
-                        pass_while = 0
-                    
-                    if (time_count == 0):
-                        py_serial.write(b'stp$')
-                        print('stop')
-                        time_count = 20
-                        pass_while = 0
-            
-            # 적외선 센서가 인식되기 전까지 컨베이어 벨트가 돌아가는 코드
-            elif (data == "stm"):
-                print('stapping')
-                pass_whlie = 1
-                while (pass_while == 1):
-                    state2 = GPIO.input(infrared2)
-                    if(state2 == 0):
-                        for i in range(5):
-                            py_serial.write(b'stp$')
-                            print(f'stp{i}')
-                            time.sleep(0.5)
-                        pass_whlie = 0
-                        break
-                    elif (state2 == 1):
-                        py_serial.write(b'go$')
-                        print('go')
-                        time.sleep(0.05)
-            
-            elif not data:
-                print('not data')
-                pass
-
-            else:
-                print('pass')
-                pass
-
-
-        #Q. DB에 값을 집어넣고 해당 로봇팔에 명령 넣기 / 변수를 선언하고 이용하기
+            while state1 == 1 and state2 == 1:
+                commend = '3'
+                py_serial.write(commend.encode())
+                state1 = GPIO.input(infrared1)
+                state2 = GPIO.input(infrared2)
+                if state1 == 1 and state2 == 0:
+                    commend = '4'
+                    py_serial.write(commend.encode())
+                    time.sleep(1)
+                    break
         if state1 == 1 and state2 == 0 and Result == "0: 512x640 1 Red box, ":
-            db = pymysql.connect(
-                host="localhost",
-                user="root",
-                passwd="1234",
-                db="blog",
-                charset="utf8")
+            # db = pymysql.connect(
+            #     host="localhost",
+            #     user="root",
+            #     passwd="1234",
+            #     db="blog",
+            #     charset="utf8")
                     
-            cursor = db.cursor()
+            # cursor = db.cursor()
 
             # cursor.execute('update project set number = number + 1 where name = "Redbox";')
-            commend = 'red'
-            py_serial.write(f'{commend}$'.encode())
-            print(commend)
-            db.commit()
-            db.close()
-
+            commend = '1'
+            py_serial.write(commend.encode())
             time.sleep(10)
+
+            # db.commit()
+            # db.close()
         elif state1 == 1 and state2 == 0 and Result == "0: 512x640 1 Blue box, ":
             db = pymysql.connect(
                 host="localhost",
@@ -332,14 +267,13 @@ def run(
                     
             cursor = db.cursor()
 
-            # cursor.execute('update project set number = number + 1 where name = "Bluebox";')
-            commend = 'blu'
-            py_serial.write(f'{commend}$'.encode())
-            print(commend)
+            cursor.execute('update project set number = number + 1 where name = "Bluebox";')
+            commend = '1'
+            py_serial.write(commend.encode())
+            time.sleep(10)
+
             db.commit()
             db.close()
-
-            time.sleep(10)
         elif state1 == 1 and state2 == 0 and Result == "0: 512x640 1 Green box, ":
             db = pymysql.connect(
                 host="localhost",
@@ -350,16 +284,13 @@ def run(
                     
             cursor = db.cursor()
 
-            # cursor.execute('update project set number = number + 1 where name = "Greenbox";')
-            commend = 'grn'
-            py_serial.write(f'{commend}$'.encode())
-            print(commend)
+            cursor.execute('update project set number = number + 1 where name = "Greenbox";')
+            commend = '1'
+            py_serial.write(commend.encode())
+            time.sleep(10)
+
             db.commit()
             db.close()
-
-            time.sleep(10)
-        
-        
 
     # Print results
     t = tuple(x.t / seen * 1E3 for x in dt)  # speeds per image
