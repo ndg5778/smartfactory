@@ -26,6 +26,7 @@ while state1 == 1 and state2 == 1:
     state2 = GPIO.input(infrared2)
 
     py_serial.write(b'sta$')
+    print('sta')
     time.sleep(1)
     data = py_serial.readline().decode().strip()
     print(f'data : {data}')
