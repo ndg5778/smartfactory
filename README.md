@@ -53,4 +53,4 @@ Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
 ## 프로젝트 설명
 
 ### 회로도
-https://user-images.githubusercontent.com/59169163/229057838-493aee0e-893c-4f02-8198-be8c051c9ad6.png
+![image](https://user-images.githubusercontent.com/59169163/229057838-493aee0e-893c-4f02-8198-be8c051c9ad6.png)
