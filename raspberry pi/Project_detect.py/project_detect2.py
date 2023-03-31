@@ -58,7 +58,7 @@ GPIO.setup(infrared1, GPIO.IN)   # 적외선 장애물 감지 센서1 설정
 GPIO.setup(infrared2, GPIO.IN)   # 적외선 장애물 감지 센서2 설정
 
 import serial
-# import pymysql
+import pymysql
 
 @smart_inference_mode()
 def run(
@@ -223,7 +223,29 @@ def run(
         py_serial = serial.Serial(
             port='/dev/ttyAMA0', # Raspqi port
             baudrate=9600,  # 보드 레이트 (통신 속도)
+            timeout = 1
         )
+
+        box_before = 0
+
+        # # 내가 건든 거.. + commend (3 -> c, 4 -> t) + box_before
+        while state1 == 1 and state2 == 1:
+            state1 = GPIO.input(infrared1)
+            state2 = GPIO.input(infrared2)
+
+            py_serial = serial.Serial(
+                port='/dev/ttyAMA0', # Raspqi port
+                baudrate=9600,  # 보드 레이트 (통신 속도)
+            )
+
+            commend = 's'
+            py_serial.write(commend.encode())
+            print(commend)
+            time.sleep(1)
+            py_serial.write(f'{box_before}'.encode())
+            print(f'box_before : {box_before}')
+            time.sleep(10)
+
 
         while state1 == 0 and state2 == 1:
             py_serial = serial.Serial(
@@ -231,71 +253,73 @@ def run(
                 baudrate=9600,  # 보드 레이트 (통신 속도)
             )
 
-            commend = '3'
+            commend = 'c'
             py_serial.write(commend.encode())
             state1 = GPIO.input(infrared1)
             state2 = GPIO.input(infrared2)
             while state1 == 1 and state2 == 1:
-                commend = '3'
+                commend = 'c'
                 py_serial.write(commend.encode())
                 state1 = GPIO.input(infrared1)
                 state2 = GPIO.input(infrared2)
                 if state1 == 1 and state2 == 0:
-                    commend = '4'
+                    commend = 't'
                     py_serial.write(commend.encode())
+                    box_before += 1
                     time.sleep(1)
                     break
-        if state1 == 1 and state2 == 0 and Result == "0: 512x640 1 Red box, ":
-            # db = pymysql.connect(
-            #     host="localhost",
-            #     user="root",
-            #     passwd="1234",
-            #     db="blog",
-            #     charset="utf8")
-                    
-            # cursor = db.cursor()
 
-            # cursor.execute('update project set number = number + 1 where name = "Redbox";')
-            commend = '1'
+        if state1 == 1 and state2 == 0 and Result == "0: 512x640 1 Red box, ":
+            db = pymysql.connect(
+                host="localhost",
+                user="root",
+                passwd="1234",
+                db="blog",
+                charset="utf8")
+                    
+            cursor = db.cursor()
+
+            cursor.execute('update project set number = number + 1 where name = "Redbox";')
+            commend = 'r'
             py_serial.write(commend.encode())
             time.sleep(10)
 
-            # db.commit()
-            # db.close()
+            db.commit()
+            db.close()
         elif state1 == 1 and state2 == 0 and Result == "0: 512x640 1 Blue box, ":
-            # db = pymysql.connect(
-            #     host="localhost",
-            #     user="root",
-            #     passwd="1234",
-            #     db="blog",
-            #     charset="utf8")
+            db = pymysql.connect(
+                host="localhost",
+                user="root",
+                passwd="1234",
+                db="blog",
+                charset="utf8")
                     
-            # cursor = db.cursor()
+            cursor = db.cursor()
 
-            # cursor.execute('update project set number = number + 1 where name = "Bluebox";')
-            commend = '1'
+            cursor.execute('update project set number = number + 1 where name = "Bluebox";')
+            commend = 'b'
             py_serial.write(commend.encode())
             time.sleep(10)
 
             db.commit()
             db.close()
         elif state1 == 1 and state2 == 0 and Result == "0: 512x640 1 Green box, ":
-            # db = pymysql.connect(
-            #     host="localhost",
-            #     user="root",
-            #     passwd="1234",
-            #     db="blog",
-            #     charset="utf8")
+            db = pymysql.connect(
+                host="localhost",
+                user="root",
+                passwd="1234",
+                db="blog",
+                charset="utf8")
                     
-            # cursor = db.cursor()
+            cursor = db.cursor()
 
-            # cursor.execute('update project set number = number + 1 where name = "Greenbox";')
-            commend = '1'
+            cursor.execute('update project set number = number + 1 where name = "Greenbox";')
+            commend = 'g'
             py_serial.write(commend.encode())
             time.sleep(10)
 
-            # db.commit()
-            # db.close()
+            db.commit()
+            db.close()
 
     # Print results
     t = tuple(x.t / seen * 1E3 for x in dt)  # speeds per image
