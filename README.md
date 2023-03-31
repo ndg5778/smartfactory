@@ -107,6 +107,9 @@ Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
 <img src="https://user-images.githubusercontent.com/59169163/229066496-133101b7-13c9-4372-bb42-395a0974ad29.png" height="300"/>
 <img src="https://user-images.githubusercontent.com/59169163/229066660-7727c91e-51d7-46d5-83c0-925ed4704f30.png" height="300"/>
 
+**객체인식**  
+<img src="https://user-images.githubusercontent.com/59169163/229067948-42227783-1b6b-4f29-bb21-922c2918c9cb.png" height="300">
+
 ### 구성도
 **S/W**  
     <img src="https://user-images.githubusercontent.com/59169163/229060300-42bbb8e3-132b-49b3-b5f2-5add2ffcfd16.png" height="300"/>
