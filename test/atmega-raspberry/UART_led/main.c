@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 	unsigned char data;
 	UART_INIT(); // UART 통신 초기화
 	
-	DDRB = 0x07; // set PB0, PB1, PB2 as output
+	DDRB |= (1 << LED_PIN1) | (1 << LED_PIN2); // set PB0, PB1 as output
 	
 	while (1) {
 		PORTB |= (1 << LED_PIN1);		// 신호 확인용. PB0 high
