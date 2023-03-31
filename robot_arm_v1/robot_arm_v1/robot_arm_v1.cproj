@@ -149,6 +149,9 @@
     </ToolchainSettings>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="jungsu.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="ServoDriver\i2c.c">
       <SubType>compile</SubType>
     </Compile>
@@ -162,6 +165,9 @@
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="ServoDriver\pca9685.h">
+      <SubType>compile</SubType>
+    </Compile>
+    <Compile Include="SmartFactory.c">
       <SubType>compile</SubType>
     </Compile>
     <Compile Include="test\atmega_led_test.c">

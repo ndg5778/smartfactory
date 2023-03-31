@@ -1,10 +1,10 @@
 # smartfactory
 
-###### 팀원
-장하현 : [깃허브](https://github.com/ndg5778)  
-김요한 : [깃허브](https://github.com/kimyohan12)  
+**팀원**
+장하현 : [github](https://github.com/ndg5778)  
+김요한 : [github](https://github.com/kimyohan12)  
 김현민 :   
-하정수 : [깃허브](https://github.com/jungsu00)  
+하정수 : [github](https://github.com/jungsu00)  
 
 
 ## 프로젝트 설명
@@ -20,7 +20,7 @@ C, Python
 Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
 
 ## 프로젝트 실행
-> ATmega328p (Atmel studio7) : main.c  
+> ATmega328p (Atmel studio7) : SmartFactory.c  
 
 > Raspberry pi (ubuntu) : project_detect.py  
 > 실행 방법  
@@ -47,5 +47,5 @@ Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
 > > 5. STK500을 사용하여 Atmega328P와 연결하여 Atmel studio사용  
 > > 6. 명령어를 입력하여 실행  
 > > ``` bash
-> >python3 project_detect.py --weights project_best.pt --source 0 --conf 0.7
+> >python3 project_detect.py --weights project_best.pt --source 0 --conf 0.8
 > > ```
