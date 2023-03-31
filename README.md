@@ -1,6 +1,10 @@
+.container {
+  column-count: 2;
+}
+
 # smartfactory
 
-**팀원**
+**팀원**  
 장하현 : [github](https://github.com/ndg5778)  
 김요한 : [github](https://github.com/kimyohan12)  
 김현민 :   
@@ -51,6 +55,24 @@ Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
 > > ```
 
 ## 프로젝트 설명
+
+### 작동 원리
+
+### 구상도
+**3d**  
+ <img src="https://user-images.githubusercontent.com/59169163/229063158-934f780b-331e-455a-809a-951c7ca5834b.png" height="300"/>
+ 
+**실제**  
+<img src="https://user-images.githubusercontent.com/59169163/229066496-133101b7-13c9-4372-bb42-395a0974ad29.png" height="300"/>
+<img src="https://user-images.githubusercontent.com/59169163/229066660-7727c91e-51d7-46d5-83c0-925ed4704f30.png" height="300"/>
+
+### 구성도
+**S/W**  
+    <img src="https://user-images.githubusercontent.com/59169163/229060300-42bbb8e3-132b-49b3-b5f2-5add2ffcfd16.png" height="300"/>
+    
+**H/W**  
+    <img src="https://user-images.githubusercontent.com/59169163/229060430-85ce3756-1e72-45da-8411-32ecb7ccba81.png" height="300"/>
+
 
 ### 회로도
 ![image](https://user-images.githubusercontent.com/59169163/229057838-493aee0e-893c-4f02-8198-be8c051c9ad6.png)
