@@ -20,9 +20,9 @@ C, Python
 Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
 
 ## 프로젝트 실행
-> ATmega328p (Atmel studio7) : SmartFactory.c  
+> ATmega328p (Atmel studio7) : [SmartFactory.c](https://github.com/ndg5778/smartfactory/blob/main/project/Atmega328p/SmartFactory.c)  
 
-> Raspberry pi (ubuntu) : project_detect.py  
+> Raspberry pi (ubuntu) : [project_detect.py](https://github.com/ndg5778/smartfactory/blob/main/project/raspberry%20pi/project_detect.py)  
 > 실행 방법  
 >   
 > > 1. pytorch 다운로드  
