@@ -1,4 +1,4 @@
-﻿#ifndef pca9685_h
+#ifndef pca9685_h
 #define pca9685_h
 
 #define SERVO0 0x06
@@ -35,5 +35,7 @@ void pca9685_init(uint8_t address, uint16_t freq);
  *                  degrees.
  */
 void pca9685_servo(uint8_t servoNum, float angle);
+
+void pca9685_pwm(uint8_t servoNum, uint16_t usec);
 
 #endif
