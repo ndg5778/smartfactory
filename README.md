@@ -1,6 +1,6 @@
 # smartfactory
 
-**팀원**
+**팀원**  
 장하현 : [github](https://github.com/ndg5778)  
 김요한 : [github](https://github.com/kimyohan12)  
 김현민 :   
