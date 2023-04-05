@@ -117,74 +117,15 @@
 //
 //int main(void)
 //{
-	//LED_DDR |= (1 << LED1);
+	////pca9685_pwm(SERVO_A(1), ANGLE(120));
+	////pca9685_pwm(SERVO_A(2), ANGLE(60));
+	////pca9685_pwm(SERVO_A(3), ANGLE(10));
+	////pca9685_pwm(SERVO_A(4), ANGLE(180));
 	//
-	////int servotime = 200;
-	////INIT_SERVO();
-	//
-	////uint16_t angle = 0;
-	////_delay_ms(1000);
-//
-	//while (1) {
-		//
-		////INIT_SERVO();
-		////_delay_ms(1000);
-//
-		////MoveRobotArm(1, 0);
-		////_delay_ms(5000);
-		//
-		////int i;
-		////for ( i = 0; i < 9; i++ ) {
-			////LED_DDR |= (1 << LED2);
-			////MoveRobotArm(1, i);
-			////
-			////LED_PORT &= ~(1 << LED2);
-			////_delay_ms(5000);
-			////
-			////
-			////INIT_SERVO();
-		////}
-		//
-		////int i;
-		////for (i = 1; i <= 5; i++){
-			////if (i == 5) {
-				////MoveServo(SERVO_A(i), ANGLE(45), ANGLE(0));
-				////_delay_ms(servotime);
-				////MoveServo(SERVO_A(i), ANGLE(0), ANGLE(45));
-				////_delay_ms(servotime);
-			////}
-			////MoveServo(SERVO_A(i), ANGLE(90), ANGLE(70));
-			////_delay_ms(servotime);
-			////MoveServo(SERVO_A(i), ANGLE(70), ANGLE(90));
-			////_delay_ms(servotime);
-		////}
-		////_delay_ms(servotime);
-//
-		//
-		/////* 함수 이용하기 */
-		////INIT_SERVO();
-		////_delay_ms(2000);
-		////MoveRobotArm(2, 8);
-		//////_delay_ms(50000000000000);
-		////_delay_ms(5000);
-		//
-//
-		//
-		//
-		////_delay_ms(50000000000000);
-		//
-		///* 각도 찾기 */
-//
-		//pca9685_pwm(SERVO_B(1), ANGLE(136)); /*46*/
-		//pca9685_pwm(SERVO_B(2), ANGLE(90)); /*50*/
-		//pca9685_pwm(SERVO_B(3), ANGLE(0));
-		//pca9685_pwm(SERVO_B(4), ANGLE(110));
-		//pca9685_pwm(SERVO_B(5), ANGLE(120));
-		//
-		//LED_PORT &= ~(1 << LED1);
-		//
-	//}
-	//return 0;
+	//pca9685_pwm(0, ANGLE(180));
+	//_delay_ms(1000);
+	//pca9685_pwm(0, ANGLE(90));
+	//_delay_ms(1000);
 //}
 //
 //void INIT_SERVO(){     

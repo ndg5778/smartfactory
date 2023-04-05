@@ -60,37 +60,42 @@
 //
 	//while (1) {
 		//LED_PORT |= (1 << LED1);
-		////INIT_SERVO();
+		//INIT_SERVO();
 		//
 		////MoveRobotArm(1, 0);
+		//
+		//pca9685_pwm(0, ANGLE(70));
+		//_delay_ms(1000);
+		//pca9685_pwm(0, ANGLE(90));
+		//_delay_ms(1000);
 		//
 		////MoveServo(SERVO_A(1), ANGLE(90), ANGLE(70));
 		////_delay_ms(100);
 		////MoveServo(SERVO_A(1), ANGLE(70), ANGLE(90));
 		////_delay_ms(100);
 		//
-		//int i;
-		//for (i = 1; i <= 4; i++) {
-			//MoveServo(SERVO_A(i), ANGLE(90), ANGLE(70));
-			//_delay_ms(100);
-			//MoveServo(SERVO_A(i), ANGLE(71), ANGLE(90));
-			//_delay_ms(100);
-		//}
-		//MoveServo(SERVO_A(5), ANGLE(45), ANGLE(0));
-		//_delay_ms(100);
-		//MoveServo(SERVO_A(5), ANGLE(0), ANGLE(45));
-		//_delay_ms(100);
+		////int i;
+		////for (i = 1; i <= 4; i++) {
+			////pca9685_pwm(SERVO_A(i), ANGLE(70));
+			////_delay_ms(1000);
+			////pca9685_pwm(SERVO_A(i), ANGLE(90));
+			////_delay_ms(1000);
+		////}
+		////MoveServo(SERVO_A(1), ANGLE(45), ANGLE(0));
+		////_delay_ms(100);
+		////MoveServo(SERVO_A(1), ANGLE(0), ANGLE(45));
+		////_delay_ms(100);
+		////
+		////_delay_ms(5000);
 		//
-		//_delay_ms(5000);
+		////for (i = 1; i <= 5; i++) {
+			////MoveServo(SERVO_B(i), ANGLE(90), ANGLE(70));
+			////_delay_ms(100);
+			////MoveServo(SERVO_B(i), ANGLE(71), ANGLE(90));
+			////_delay_ms(100);
+		////}
 		//
-		//for (i = 1; i <= 5; i++) {
-			//MoveServo(SERVO_B(i), ANGLE(90), ANGLE(70));
-			//_delay_ms(100);
-			//MoveServo(SERVO_B(i), ANGLE(71), ANGLE(90));
-			//_delay_ms(100);
-		//}
-		//
-		//_delay_ms(5000);
+		////_delay_ms(5000);
 		//
 		////for (i = 2; i <= 3; i++) {
 			////MoveServo(SERVO_B(i), ANGLE(0), ANGLE(180));
@@ -120,21 +125,28 @@
 	//return 0;
 //}
 //
-//void INIT_SERVO() {
+//void INIT_SERVO(){
 //
 	//pca9685_init(0x00, 50); // start PCA9685 device 0x00 at 50 Hz output
 	//int i;
 //
 	//for (i = 1; i <= 4; i++){
-		//pca9685_pwm(SERVO_A(i), ANGLE(90));
-		//pca9685_pwm(SERVO_B(i), ANGLE(90));
-		//_delay_ms(20);
+		//if(i == 3) {
+			//pca9685_pwm(SERVO_A(i), ANGLE(110));
+			//pca9685_pwm(SERVO_B(i), ANGLE(120));
+			//_delay_ms(20);
+		//}
+		//else {
+			//pca9685_pwm(SERVO_A(i), ANGLE(90));
+			//pca9685_pwm(SERVO_B(i), ANGLE(90));
+			//_delay_ms(20);
+		//}
 	//}
 //
 	//pca9685_pwm(SERVO_A(5), ANGLE(45));
-	//pca9685_pwm(SERVO_B(3), ANGLE(130));
-	//pca9685_pwm(SERVO_B(5), ANGLE(90));
+	//pca9685_pwm(SERVO_B(5), ANGLE(120));
 	//_delay_ms(200);
+//
 //}
 //
 //void MoveServo(uint8_t servo, uint16_t start_angle, uint16_t end_angle) {

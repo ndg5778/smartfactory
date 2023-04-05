@@ -170,6 +170,9 @@
     <Compile Include="SmartFactory.c">
       <SubType>compile</SubType>
     </Compile>
+    <Compile Include="test.c">
+      <SubType>compile</SubType>
+    </Compile>
     <Compile Include="test\atmega_led_test.c">
       <SubType>compile</SubType>
     </Compile>

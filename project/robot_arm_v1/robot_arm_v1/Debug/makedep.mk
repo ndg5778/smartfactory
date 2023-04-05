@@ -12,6 +12,8 @@ ServoDriver\pca9685.c
 
 SmartFactory.c
 
+test.c
+
 test\atmega_led_test.c
 
 test\L298N.c

@@ -68,7 +68,7 @@ uint16_t move_Aarm_coord[9][servo_max_A][3] = {
 	
 	{
 		/* 01 */
-		{1, 90, 84.3}, {4, 90, 135}, {2, 90, 60}, {3, 90, -10}, {4, 135, 110}, {5, 60, 30},
+		{1, 90, 83}, {4, 90, 135}, {2, 90, 60}, {3, 90, -10}, {4, 135, 110}, {5, 60, 30},
 		{4, 120, 180}, {3, -10, 30}, {2, 55, 77},
 		{1, 85, 125}, {3, 30, -15}, {4, 180, 130}, {5, 30, 45}, {4, 130, 180}, {2, 77, 90}, {1, 125, 90}
 	},
@@ -134,9 +134,16 @@ uint16_t move_Barm_fst[servo_max_Bfst][3] = {
 	{1, 90, 136}, {4, 90, 180}, {2, 90, 90}, {3, 90, 0},  {4, 180, 110}, {5, 120, 80}, {5, 80, 80},
 		{4, 100, 180}, {3, 5, 30}, {2, 80, 90}, {1, 137, 70}
 };
-
 uint16_t move_Barm_coord[9][servo_max_B][3] = {
-	{{2, 90, 80}, {3, 30, 7}, {4, 180, 100}, {5, 90, 120}, {3, 5, 90}}
+	{/* 09 */{1, 147, 67}, {2, 90, 25}, {3, 20, 20}, {4, 180, 130}, {5, 90, 120}, {2, 30, 90}},
+	{/* 08 */{1, 147, 90}, {2, 90, 30}, {3, 20, 15}, {4, 180, 130}, {5, 90, 120}, {2, 30, 90}},
+	{/* 07 */{1, 147, 105}, {2, 90, 28}, {3, 20, 17}, {4, 180, 130}, {5, 90, 120}, {2, 30, 90}},
+	{/* 06 */{1, 147, 65}, {2, 90, 35}, {3, 20, 0}, {4, 180, 130}, {5, 90, 120}, {2, 32, 90}},
+	{/* 05 */{1, 147, 90}, {2, 90, 45}, {3, 20, -6}, {4, 180, 130}, {5, 90, 120}, {2, 45, 90}},
+	{/* 04 */{1, 147, 110}, {2, 90, 35}, {3, 20, 3}, {4, 180, 130}, {5, 90, 120}, {2, 35, 90}},
+	{/* 02 */{1, 147, 90}, {2, 90, 50}, {3, 20, -17}, {4, 180, 130}, {5, 90, 120}, {2, 50, 90}},
+	{/* 02 */{1, 147, 90}, {2, 90, 50}, {3, 20, -17}, {4, 180, 130}, {5, 90, 120}, {2, 50, 90}},
+	{/* 01 */{1, 147, 110}, {2, 90, 42}, {3, 20, -10}, {4, 180, 150}, {5, 90, 120}, {2, 42, 90}}
 };
 uint8_t redbox	= 0;
 uint8_t bluebox	= 0;
@@ -160,36 +167,47 @@ char data;					// 수신 데이터
  	_delay_ms(1000);
  	
  	while (1) {
- 		UART_INIT();
-		 _delay_ms(1000);
 		
- 		uart_RasToAt();
- 		
- 		if(strcmp(buffer, "s") == 0) {
- 			move_num = WhichCanMove();
- 			if (move_num == 9)	return 0;
- 			else if (0 <= move_num && move_num < 9) {
-				MoveRobotArm(1, move_num);
-				_delay_ms(1000);
-				INIT_SERVO();
-			}
- 		}
- 		else if(strcmp(buffer, "c") == 0) {
- 			while (1) {
- 				loop_stepper();
-				 
- 				uart_RasToAt();
- 				if(strcmp(buffer, "t") == 0) {
-					 MoveRobotArm(2, 0);
-					 break;
-				 }
- 			}
- 		}
- 		else {
- 			
- 			UART_transmit(data);
- 			uart_index = 0;
- 		}
+		 //MoveRobotArm(1, 0);
+		 pca9685_pwm(SERVO_A(4), ANGLE(45));
+		 _delay_ms(1000);
+		 pca9685_pwm(SERVO_A(4), ANGLE(15));
+		 _delay_ms(1000);
+		 
+		 
+		 //MoveServo(SERVO_A(4), ANGLE(45), ANGLE(15));
+		 //_delay_ms(1000);
+		 
+ 		//UART_INIT();
+		 //_delay_ms(1000);
+		//
+ 		//uart_RasToAt();
+ 		//
+ 		//if(strcmp(buffer, "s") == 0) {
+ 			//move_num = WhichCanMove();
+ 			//if (move_num == 9)	return 0;
+ 			//else if (0 <= move_num && move_num < 9) {
+				//MoveRobotArm(1, move_num);
+				//_delay_ms(1000);
+				//INIT_SERVO();
+			//}
+ 		//}
+ 		//else if(strcmp(buffer, "c") == 0) {
+ 			//while (1) {
+ 				//loop_stepper();
+				 //
+ 				//uart_RasToAt();
+ 				//if(strcmp(buffer, "t") == 0) {
+					 //MoveRobotArm(2, 0);
+					 //break;
+				 //}
+ 			//}
+ 		//}
+ 		//else {
+ 			//
+ 			//UART_transmit(data);
+ 			//uart_index = 0;
+ 		//}
  	}
  
  	return 0;
@@ -221,7 +239,7 @@ void INIT_SERVO(){
 		}
 	}
 
-	pca9685_pwm(SERVO_A(5), ANGLE(60));
+	pca9685_pwm(SERVO_A(5), ANGLE(75));
 	pca9685_pwm(SERVO_B(5), ANGLE(120));
 	_delay_ms(200);
 
