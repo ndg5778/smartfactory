@@ -1,6 +1,6 @@
 # ATmega328p로 L298N을 이용하여 stepping motor 돌리기
 
-[아래의 코드를 사용하면 영상과 같이 된다. (링크공개 영상. 지금 문장 클릭)](https://youtu.be/AbVaCdjIxz4)
+[아래의 코드를 사용하면 영상과 같이 된다. (링크공개 영상)](https://youtu.be/AbVaCdjIxz4)
 
 사용한 모터 : [유니폴라 스테핑 모터](https://www.devicemart.co.kr/goods/view?no=1357347)  
 하지만 [L298N](https://www.devicemart.co.kr/goods/view?no=1278835)은 바이폴라 드라이버.  
