@@ -90,13 +90,13 @@ Discarded input sections
  .text.uart_RasToAt
                 0x00000000       0x18 SmartFactory.o
  .rodata.str1.1
-                0x00000000       0x20 SmartFactory.o
+                0x00000000       0x1a SmartFactory.o
  .text.WhichCanMove
                 0x00000000      0x1a8 SmartFactory.o
  .text.MoveServo
                 0x00000000       0x74 SmartFactory.o
  .text.MoveRobotArm
-                0x00000000      0x176 SmartFactory.o
+                0x00000000      0x154 SmartFactory.o
  .text.SecondRobotArm
                 0x00000000       0xb8 SmartFactory.o
  .text.loop_stepper
@@ -110,11 +110,11 @@ Discarded input sections
  .bss.bluebox   0x00000000        0x1 SmartFactory.o
  .bss.redbox    0x00000000        0x1 SmartFactory.o
  .data.move_Barm_coord
-                0x00000000      0x17a SmartFactory.o
+                0x00000000       0xfc SmartFactory.o
  .data.move_Barm_fst
-                0x00000000       0x5a SmartFactory.o
+                0x00000000       0x3c SmartFactory.o
  .data.move_Aarm_coord
-                0x00000000      0x3cc SmartFactory.o
+                0x00000000      0x288 SmartFactory.o
  COMMON         0x00000000        0x1 SmartFactory.o
  .text          0x00000000        0x0 test.o
  .data          0x00000000        0x0 test.o
@@ -808,13 +808,13 @@ END GROUP
 .debug_pubnames
  *(.debug_pubnames)
 
-.debug_info     0x00000000     0x1cae
+.debug_info     0x00000000     0x1d22
  *(.debug_info .gnu.linkonce.wi.*)
  .debug_info    0x00000000      0x5f4 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_info    0x000005f4      0x1fa ServoDriver/i2c.o
  .debug_info    0x000007ee      0x59d ServoDriver/pca9685.o
- .debug_info    0x00000d8b      0xc8e SmartFactory.o
- .debug_info    0x00001a19      0x295 UART/UART.o
+ .debug_info    0x00000d8b      0xd02 SmartFactory.o
+ .debug_info    0x00001a8d      0x295 UART/UART.o
 
 .debug_abbrev   0x00000000      0xb31
  *(.debug_abbrev)
@@ -824,13 +824,13 @@ END GROUP
  .debug_abbrev  0x0000078c      0x26e SmartFactory.o
  .debug_abbrev  0x000009fa      0x137 UART/UART.o
 
-.debug_line     0x00000000      0xeb8
+.debug_line     0x00000000      0xed8
  *(.debug_line .debug_line.* .debug_line_end)
  .debug_line    0x00000000      0x134 C:/Program Files (x86)/Atmel/Studio/7.0/Packs/atmel/ATmega_DFP/1.7.374/gcc/dev/atmega328p/avr5/crtatmega328p.o
  .debug_line    0x00000134      0x26b ServoDriver/i2c.o
  .debug_line    0x0000039f      0x28f ServoDriver/pca9685.o
- .debug_line    0x0000062e      0x5cd SmartFactory.o
- .debug_line    0x00000bfb      0x2bd UART/UART.o
+ .debug_line    0x0000062e      0x5ed SmartFactory.o
+ .debug_line    0x00000c1b      0x2bd UART/UART.o
 
 .debug_frame    0x00000000      0x30c
  *(.debug_frame)
@@ -851,12 +851,12 @@ END GROUP
  .debug_str     0x0000064d       0x79 UART/UART.o
                                 0x211 (size before relaxing)
 
-.debug_loc      0x00000000     0x106f
+.debug_loc      0x00000000     0x10ff
  *(.debug_loc)
  .debug_loc     0x00000000      0x1aa ServoDriver/i2c.o
  .debug_loc     0x000001aa      0x42e ServoDriver/pca9685.o
- .debug_loc     0x000005d8      0x6e4 SmartFactory.o
- .debug_loc     0x00000cbc      0x3b3 UART/UART.o
+ .debug_loc     0x000005d8      0x774 SmartFactory.o
+ .debug_loc     0x00000d4c      0x3b3 UART/UART.o
 
 .debug_macinfo
  *(.debug_macinfo)

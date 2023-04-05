@@ -15,19 +15,19 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   CONTENTS, READONLY
   5 .debug_aranges 00000130  00000000  00000000  0000094c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  6 .debug_info   00001cae  00000000  00000000  00000a7c  2**0
+  6 .debug_info   00001d22  00000000  00000000  00000a7c  2**0
                   CONTENTS, READONLY, DEBUGGING
-  7 .debug_abbrev 00000b31  00000000  00000000  0000272a  2**0
+  7 .debug_abbrev 00000b31  00000000  00000000  0000279e  2**0
                   CONTENTS, READONLY, DEBUGGING
-  8 .debug_line   00000eb8  00000000  00000000  0000325b  2**0
+  8 .debug_line   00000ed8  00000000  00000000  000032cf  2**0
                   CONTENTS, READONLY, DEBUGGING
-  9 .debug_frame  0000030c  00000000  00000000  00004114  2**2
+  9 .debug_frame  0000030c  00000000  00000000  000041a8  2**2
                   CONTENTS, READONLY, DEBUGGING
- 10 .debug_str    000006c6  00000000  00000000  00004420  2**0
+ 10 .debug_str    000006c6  00000000  00000000  000044b4  2**0
                   CONTENTS, READONLY, DEBUGGING
- 11 .debug_loc    0000106f  00000000  00000000  00004ae6  2**0
+ 11 .debug_loc    000010ff  00000000  00000000  00004b7a  2**0
                   CONTENTS, READONLY, DEBUGGING
- 12 .debug_ranges 000000f0  00000000  00000000  00005b55  2**0
+ 12 .debug_ranges 000000f0  00000000  00000000  00005c79  2**0
                   CONTENTS, READONLY, DEBUGGING
 
 Disassembly of section .text:
@@ -111,7 +111,7 @@ Disassembly of section .text:
   b6:	08 95       	ret
 
 000000b8 <i2c_tx_start>:
-  b8:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__DATA_REGION_ORIGIN__>
+  b8:	80 93 00 01 	sts	0x0100, r24	; 0x800100 <__data_end>
   bc:	ec eb       	ldi	r30, 0xBC	; 188
   be:	f0 e0       	ldi	r31, 0x00	; 0
   c0:	80 81       	ld	r24, Z
@@ -135,7 +135,7 @@ Disassembly of section .text:
   e4:	90 e0       	ldi	r25, 0x00	; 0
   e6:	88 0f       	add	r24, r24
   e8:	99 1f       	adc	r25, r25
-  ea:	90 91 00 01 	lds	r25, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+  ea:	90 91 00 01 	lds	r25, 0x0100	; 0x800100 <__data_end>
   ee:	89 2b       	or	r24, r25
   f0:	80 93 bb 00 	sts	0x00BB, r24	; 0x8000bb <__TEXT_REGION_LENGTH__+0x7f80bb>
   f4:	ec eb       	ldi	r30, 0xBC	; 188
@@ -149,7 +149,7 @@ Disassembly of section .text:
  104:	80 91 bc 00 	lds	r24, 0x00BC	; 0x8000bc <__TEXT_REGION_LENGTH__+0x7f80bc>
  108:	88 23       	and	r24, r24
  10a:	e4 f7       	brge	.-8      	; 0x104 <i2c_tx_address+0x20>
- 10c:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__DATA_REGION_ORIGIN__>
+ 10c:	80 91 00 01 	lds	r24, 0x0100	; 0x800100 <__data_end>
  110:	81 11       	cpse	r24, r1
  112:	07 c0       	rjmp	.+14     	; 0x122 <i2c_tx_address+0x3e>
  114:	80 91 b9 00 	lds	r24, 0x00B9	; 0x8000b9 <__TEXT_REGION_LENGTH__+0x7f80b9>
@@ -416,8 +416,8 @@ Disassembly of section .text:
  36a:	c5 30       	cpi	r28, 0x05	; 5
  36c:	d1 05       	cpc	r29, r1
  36e:	74 f2       	brlt	.-100    	; 0x30c <INIT_SERVO+0x14>
- 370:	66 e4       	ldi	r22, 0x46	; 70
- 372:	75 e0       	ldi	r23, 0x05	; 5
+ 370:	6a e1       	ldi	r22, 0x1A	; 26
+ 372:	74 e0       	ldi	r23, 0x04	; 4
  374:	84 e0       	ldi	r24, 0x04	; 4
  376:	0e 94 44 01 	call	0x288	; 0x288 <pca9685_pwm>
  37a:	68 e0       	ldi	r22, 0x08	; 8
@@ -505,15 +505,15 @@ void INIT_STEPPER() {
  3e2:	e1 f7       	brne	.-8      	; 0x3dc <main+0x12>
  3e4:	00 c0       	rjmp	.+0      	; 0x3e6 <main+0x1c>
  3e6:	00 00       	nop
- 	_delay_ms(1000);
- 	
  	while (1) {
-		
-		 //MoveRobotArm(1, 0);
-		 pca9685_pwm(SERVO_A(4), ANGLE(45));
- 3e8:	6a e1       	ldi	r22, 0x1A	; 26
- 3ea:	74 e0       	ldi	r23, 0x04	; 4
- 3ec:	83 e0       	ldi	r24, 0x03	; 3
+		//INIT_SERVO();
+		//MoveRobotArm(1, 0);
+		//_delay_ms(5000);
+		 
+		pca9685_pwm(SERVO_A(1), ANGLE(90));
+ 3e8:	6c ed       	ldi	r22, 0xDC	; 220
+ 3ea:	75 e0       	ldi	r23, 0x05	; 5
+ 3ec:	80 e0       	ldi	r24, 0x00	; 0
  3ee:	0e 94 44 01 	call	0x288	; 0x288 <pca9685_pwm>
  3f2:	2f ef       	ldi	r18, 0xFF	; 255
  3f4:	83 ed       	ldi	r24, 0xD3	; 211
@@ -524,11 +524,11 @@ void INIT_STEPPER() {
  3fe:	e1 f7       	brne	.-8      	; 0x3f8 <main+0x2e>
  400:	00 c0       	rjmp	.+0      	; 0x402 <__EEPROM_REGION_LENGTH__+0x2>
  402:	00 00       	nop
-		 _delay_ms(1000);
-		 pca9685_pwm(SERVO_A(4), ANGLE(15));
- 404:	6e ee       	ldi	r22, 0xEE	; 238
- 406:	72 e0       	ldi	r23, 0x02	; 2
- 408:	83 e0       	ldi	r24, 0x03	; 3
+		_delay_ms(1000);
+		pca9685_pwm(SERVO_A(1), ANGLE(50));
+ 404:	6c e4       	ldi	r22, 0x4C	; 76
+ 406:	74 e0       	ldi	r23, 0x04	; 4
+ 408:	80 e0       	ldi	r24, 0x00	; 0
  40a:	0e 94 44 01 	call	0x288	; 0x288 <pca9685_pwm>
  40e:	2f ef       	ldi	r18, 0xFF	; 255
  410:	83 ed       	ldi	r24, 0xD3	; 211
