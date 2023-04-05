@@ -167,49 +167,34 @@ char data;					// 수신 데이터
  	_delay_ms(1000);
  	
  	while (1) {
-		//INIT_SERVO();
-		//MoveRobotArm(1, 0);
-		//_delay_ms(5000);
-		 
-		pca9685_pwm(SERVO_A(1), ANGLE(90));
-		_delay_ms(1000);
-		pca9685_pwm(SERVO_A(1), ANGLE(50));
-		_delay_ms(1000);
-		
-		 
-		//MoveServo(SERVO_A(4), ANGLE(45), ANGLE(15));
-		//_delay_ms(1000);
-		 
- 		//UART_INIT();
-		 //_delay_ms(1000);
-		//
- 		//uart_RasToAt();
- 		//
- 		//if(strcmp(buffer, "s") == 0) {
- 			//move_num = WhichCanMove();
- 			//if (move_num == 9)	return 0;
- 			//else if (0 <= move_num && move_num < 9) {
-				//MoveRobotArm(1, move_num);
-				//_delay_ms(1000);
-				//INIT_SERVO();
-			//}
- 		//}
- 		//else if(strcmp(buffer, "c") == 0) {
- 			//while (1) {
- 				//loop_stepper();
-				 //
- 				//uart_RasToAt();
- 				//if(strcmp(buffer, "t") == 0) {
-					 //MoveRobotArm(2, 0);
-					 //break;
-				 //}
- 			//}
- 		//}
- 		//else {
- 			//
- 			//UART_transmit(data);
- 			//uart_index = 0;
- 		//}
+
+ 		uart_RasToAt();
+ 		
+ 		if(strcmp(buffer, "s") == 0) {
+ 			move_num = WhichCanMove();
+ 			if (move_num == 9)	return 0;
+ 			else if (0 <= move_num && move_num < 9) {
+				MoveRobotArm(1, move_num);
+				_delay_ms(1000);
+				INIT_SERVO();
+			}
+ 		}
+ 		else if(strcmp(buffer, "c") == 0) {
+ 			while (1) {
+ 				loop_stepper();
+				 
+ 				uart_RasToAt();
+ 				if(strcmp(buffer, "t") == 0) {
+					 MoveRobotArm(2, 0);
+					 break;
+				 }
+ 			}
+ 		}
+ 		else {
+ 			
+ 			UART_transmit(data);
+ 			uart_index = 0;
+ 		}
  	}
  
  	return 0;
@@ -220,7 +205,7 @@ void uart_RasToAt() {
 
 	data = UART_receive();	// 데이터 수신
 	buffer[uart_index] = data;
-	
+		
 }
 
 void INIT_SERVO(){
@@ -275,11 +260,8 @@ int WhichCanMove(void) {
 		// 다른 값이 들어온다면...
 		else {
 			continue;
-		}
-		
+		}	
 	}
-	
-	
 	return 0;
 }
 
@@ -299,7 +281,6 @@ void SecondRobotArm(void) {
 				MoveRobotArm(2, (3 * redbox)); // 1, 4, 7
 				redbox++;
 				pass = 0;
-				//PORTB |= ~(1 << LED2);
 			}
 			
 			else if (strcmp(buffer, "b") == 0) {
