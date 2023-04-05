@@ -1,10 +1,10 @@
 # smartfactory
 
 **팀원**  
-장하현 : [github](https://github.com/ndg5778)  
-김요한 : [github](https://github.com/kimyohan12)  
+장하현 : [github](https://github.com/ndg5778/smartfactory)  
+김요한 : [github](https://github.com/kimyohan12/yolov5)  
 김현민 :   
-하정수 : [github](https://github.com/jungsu00)  
+하정수 : [github](https://github.com/jungsu00/KoreaVCEC-project-)  
 
 
 ## 프로젝트 설명
@@ -116,6 +116,9 @@ Ubuntu(ver 22.10), YOLOv5, MySQL, Server, OpenCV, PyTorch, Database, Flask
     
 **H/W**  
     <img src="https://user-images.githubusercontent.com/59169163/229060430-85ce3756-1e72-45da-8411-32ecb7ccba81.png" height="300"/>
+
+### 블럭도  
+<img src="https://user-images.githubusercontent.com/59169163/230075271-e4704ec9-908d-49bc-808f-eaa8d5d6a7bd.png" height="600"/>
 
 
 ### 회로도
